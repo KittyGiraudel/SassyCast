@@ -1,3 +1,9 @@
+// Cast a string into a hsl color
+// --------------------------------------------------------------------------------
+// @param [string] $string: string
+// --------------------------------------------------------------------------------
+// @return [color|string] string or hsl color depending on the match
+
 @function _from-hsl($string) {
   $frags: ();
   $string-lower: to-lower-case($string);

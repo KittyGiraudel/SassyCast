@@ -1,11 +1,9 @@
-// Parses a JSON encoded number to find the digits
+// Finding the digits part of a stringified number
 // --------------------------------------------------------------------------------
-// @param [string] $source: JSON complete source
+// @param [string] $source: string source
 // @param [number] $pointer: current pointer
 // --------------------------------------------------------------------------------
-// @throw "Unexpected token $token."
-// --------------------------------------------------------------------------------
-// @return [list|false] (new pointer, parsed number)
+// @return [list] (new pointer, parsed number)
 
 @function _find-digits($source, $pointer) {
   $source: to-lower-case($source);
