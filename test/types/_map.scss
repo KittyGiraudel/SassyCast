@@ -1,0 +1,121 @@
+@include describe("The to-map function") {
+  @include it("should cast a string to a map") {
+    @include should(expect(to-map("")), to(equal((1: ""))));
+    @include should(expect(to-map("string")), to(equal((1: "string"))));
+    @include should(expect(to-map("this is a string")), to(equal((1: "this is a string"))));
+    @include should(expect(to-map("true")), to(equal((1: "true"))));
+    @include should(expect(to-map("false")), to(equal((1: "false"))));
+    @include should(expect(to-map("0")), to(equal((1: "0"))));
+    @include should(expect(to-map("-0")), to(equal((1: "-0"))));
+    @include should(expect(to-map("1")), to(equal((1: "1"))));
+    @include should(expect(to-map("42")), to(equal((1: "42"))));
+    @include should(expect(to-map("4.2")), to(equal((1: "4.2"))));
+    @include should(expect(to-map("-42")), to(equal((1: "-42"))));
+    @include should(expect(to-map("-4.2")), to(equal((1: "-4.2"))));
+    @include should(expect(to-map("42em")), to(equal((1: "42em"))));
+    @include should(expect(to-map("4.2em")), to(equal((1: "4.2em"))));
+    @include should(expect(to-map("-42em")), to(equal((1: "-42em"))));
+    @include should(expect(to-map("-4.2em")), to(equal((1: "-4.2em"))));
+    @include should(expect(to-map('#000')), to(equal((1: '#000'))));
+    @include should(expect(to-map('#000000')), to(equal((1: '#000000'))));
+    @include should(expect(to-map('black')), to(equal((1: 'black'))));
+    @include should(expect(to-map('rgb(0,0,0)')), to(equal((1: 'rgb(0,0,0)'))));
+    @include should(expect(to-map('rgba(0,0,0,.5)')), to(equal((1: 'rgba(0,0,0,.5)'))));
+    @include should(expect(to-map('hsl(0,0,0)')), to(equal((1: 'hsl(0,0,0)'))));
+    @include should(expect(to-map('hsla(0,0,0, .5)')), to(equal((1: 'hsla(0,0,0, .5)'))));
+
+    @include should(expect(type-of(to-map(""))), to(equal(map)));
+    @include should(expect(type-of(to-map("string"))), to(equal(map)));
+    @include should(expect(type-of(to-map("this is a string"))), to(equal('map')));
+    @include should(expect(type-of(to-map("true"))), to(equal('map')));
+    @include should(expect(type-of(to-map("false"))), to(equal('map')));
+    @include should(expect(type-of(to-map("42"))), to(equal('map')));
+    @include should(expect(type-of(to-map("0"))), to(equal('map')));
+    @include should(expect(type-of(to-map("-0"))), to(equal('map')));
+    @include should(expect(type-of(to-map("1"))), to(equal('map')));
+    @include should(expect(type-of(to-map("4.2"))), to(equal('map')));
+    @include should(expect(type-of(to-map("-42"))), to(equal('map')));
+    @include should(expect(type-of(to-map("-4.2"))), to(equal('map')));
+    @include should(expect(type-of(to-map("42em"))), to(equal('map')));
+    @include should(expect(type-of(to-map("4.2em"))), to(equal('map')));
+    @include should(expect(type-of(to-map("-42em"))), to(equal('map')));
+    @include should(expect(type-of(to-map("-4.2em"))), to(equal('map')));
+    @include should(expect(type-of(to-map('#000000'))), to(equal('map')));
+    @include should(expect(type-of(to-map('black'))), to(equal('map')));
+    @include should(expect(type-of(to-map('rgb(0,0,0)'))), to(equal('map')));
+    @include should(expect(type-of(to-map('rgba(0,0,0,.5)'))), to(equal('map')));
+    @include should(expect(type-of(to-map('hsl(0,0,0)'))), to(equal('map')));
+    @include should(expect(type-of(to-map('hsla(0,0,0, .5)'))), to(equal('map')));
+  }
+
+  @include it("should cast a number to a map") {
+    @include should(expect(to-map(-0)), to(equal((1: 0))));
+    @include should(expect(to-map(0)), to(equal((1: 0))));
+    @include should(expect(to-map(1)), to(equal((1: 1))));
+    @include should(expect(to-map(42)), to(equal((1: 42))));
+    @include should(expect(to-map(-42)), to(equal((1: -42))));
+    @include should(expect(to-map(-4.2)), to(equal((1: -4.2))));
+    @include should(expect(to-map(4.2)), to(equal((1: 4.2))));
+    @include should(expect(to-map(42em)), to(equal((1: 42em))));
+    @include should(expect(to-map(-42em)), to(equal((1: -42em))));
+    @include should(expect(to-map(-4.2em)), to(equal((1: -4.2em))));
+    @include should(expect(to-map(4.2em)), to(equal((1: 4.2em))));
+
+    @include should(expect(type-of(to-map(0))), to(equal('map')));
+    @include should(expect(type-of(to-map(0))), to(equal('map')));
+    @include should(expect(type-of(to-map(1))), to(equal('map')));
+    @include should(expect(type-of(to-map(42))), to(equal('map')));
+    @include should(expect(type-of(to-map(-42))), to(equal('map')));
+    @include should(expect(type-of(to-map(-4.2))), to(equal('map')));
+    @include should(expect(type-of(to-map(4.2))), to(equal('map')));
+    @include should(expect(type-of(to-map(42em))), to(equal('map')));
+    @include should(expect(type-of(to-map(-42em))), to(equal('map')));
+    @include should(expect(type-of(to-map(-4.2em))), to(equal('map')));
+    @include should(expect(type-of(to-map(4.2em))), to(equal('map')));
+  }
+
+  @include it("should cast a color to a map") {
+    @include should(expect(to-map(#000)), to(equal((1: black))));
+    @include should(expect(to-map(#000000)), to(equal((1: black))));
+    @include should(expect(to-map(black)), to(equal((1: black))));
+    @include should(expect(to-map(rgb(0,0,0))), to(equal((1: black))));
+    @include should(expect(to-map(rgba(0,0,0,.5))), to(equal((1: rgba(0,0,0,0.5)))));
+    @include should(expect(to-map(hsl(0,0,0))), to(equal((1: black))));
+    @include should(expect(to-map(hsla(0,0,0, .5))), to(equal((1: rgba(0,0,0,.5)))));
+
+    @include should(expect(type-of(to-map(#000))), to(equal('map')));
+    @include should(expect(type-of(to-map(#000000))), to(equal('map')));
+    @include should(expect(type-of(to-map(black))), to(equal('map')));
+    @include should(expect(type-of(to-map(rgb(0,0,0)))), to(equal('map')));
+    @include should(expect(type-of(to-map(rgba(0,0,0,.5)))), to(equal('map')));
+    @include should(expect(type-of(to-map(hsl(0,0,0)))), to(equal('map')));
+    @include should(expect(type-of(to-map(hsla(0,0,0, .5)))), to(equal('map')));
+  }
+
+  @include it("should cast a bool to a map") {
+    @include should(expect(to-map(true)), to(equal((1: true))));
+    @include should(expect(to-map(false)), to(equal((1: false))));
+
+    @include should(expect(type-of(to-map(true))), to(equal(map)));
+    @include should(expect(type-of(to-map(false))), to(equal(map)));
+  }
+
+  @include it("should cast a map to a map") {
+    @include should(expect(to-map(("a": 1, "b": 2))), to(equal(("a": 1, "b": 2))));
+
+    @include should(expect(type-of(to-map(("a": 1, "b": 2)))), to(equal(map)));
+  }
+
+  @include it("should cast a list to a map") {
+    @include should(expect(to-map(())), to(equal(())));
+    @include should(expect(to-map(this is a list)), to(equal((1: this, 2: is, 3: a, 4: list))));
+    
+    @include should(expect(type-of(to-map(this is a list))), to(equal(map)));
+  }
+
+  @include it("should cast null to a map") {
+    @include should(expect(to-map(null)), to(equal((1: null))));
+    
+    @include should(expect(type-of(to-map(null))), to(equal(map)));
+  }
+}

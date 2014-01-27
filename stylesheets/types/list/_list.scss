@@ -1,0 +1,19 @@
+// Convert to list
+// --------------------------------------------------------------------------------
+// @param $value: value to cast
+// --------------------------------------------------------------------------------
+// @return [list]
+
+@function to-list($value) {
+  @if type-of($value) == map {
+    $keys: ();
+    $values: ();
+    @each $key, $val in $value {
+      $keys: append($keys, $key);
+      $values: append($values, $val);
+    }
+    @return zip($keys, $values);
+  }
+
+  @return if(type-of($value) != list, ($value,), $value);
+}

@@ -1,0 +1,123 @@
+@include describe("The to-bool function") {
+  @include it("should cast a number to a bool") {
+    @include should(expect(to-bool(-0)), to(equal(false)));
+    @include should(expect(to-bool(0)), to(equal(false)));
+    @include should(expect(to-bool(1)), to(equal(true)));
+    @include should(expect(to-bool(42)), to(equal(true)));
+    @include should(expect(to-bool(-42)), to(equal(true)));
+    @include should(expect(to-bool(-4.2)), to(equal(true)));
+    @include should(expect(to-bool(4.2)), to(equal(true)));
+    @include should(expect(to-bool(42em)), to(equal(true)));
+    @include should(expect(to-bool(-42em)), to(equal(true)));
+    @include should(expect(to-bool(-4.2em)), to(equal(true)));
+    @include should(expect(to-bool(4.2em)), to(equal(true)));
+
+    @include should(expect(type-of(to-bool(0))), to(equal('bool')));
+    @include should(expect(type-of(to-bool(0))), to(equal('bool')));
+    @include should(expect(type-of(to-bool(1))), to(equal('bool')));
+    @include should(expect(type-of(to-bool(42))), to(equal('bool')));
+    @include should(expect(type-of(to-bool(-42))), to(equal('bool')));
+    @include should(expect(type-of(to-bool(-4.2))), to(equal('bool')));
+    @include should(expect(type-of(to-bool(4.2))), to(equal('bool')));
+    @include should(expect(type-of(to-bool(42em))), to(equal('bool')));
+    @include should(expect(type-of(to-bool(-42em))), to(equal('bool')));
+    @include should(expect(type-of(to-bool(-4.2em))), to(equal('bool')));
+    @include should(expect(type-of(to-bool(4.2em))), to(equal('bool')));
+  }
+
+  @include it("should cast a string to a bool") {
+    @include should(expect(to-bool("")), to(equal(false)));
+    @include should(expect(to-bool("string")), to(equal(true)));
+    @include should(expect(to-bool("this is a string")), to(equal(true)));
+    @include should(expect(to-bool("true")), to(equal(true)));
+    @include should(expect(to-bool("false")), to(equal(true)));
+    @include should(expect(to-bool("0")), to(equal(true)));
+    @include should(expect(to-bool("-0")), to(equal(true)));
+    @include should(expect(to-bool("1")), to(equal(true)));
+    @include should(expect(to-bool("42")), to(equal(true)));
+    @include should(expect(to-bool("4.2")), to(equal(true)));
+    @include should(expect(to-bool("-42")), to(equal(true)));
+    @include should(expect(to-bool("-4.2")), to(equal(true)));
+    @include should(expect(to-bool("42em")), to(equal(true)));
+    @include should(expect(to-bool("4.2em")), to(equal(true)));
+    @include should(expect(to-bool("-42em")), to(equal(true)));
+    @include should(expect(to-bool("-4.2em")), to(equal(true)));
+    @include should(expect(to-bool('#000')), to(equal(true)));
+    @include should(expect(to-bool('#000000')), to(equal(true)));
+    @include should(expect(to-bool('black')), to(equal(true)));
+    @include should(expect(to-bool('rgb(0,0,0)')), to(equal(true)));
+    @include should(expect(to-bool('rgba(0,0,0,.5)')), to(equal(true)));
+    @include should(expect(to-bool('hsl(0,0,0)')), to(equal(true)));
+    @include should(expect(to-bool('hsla(0,0,0, .5)')), to(equal(true)));
+
+    @include should(expect(type-of(to-bool(""))), to(equal('bool')));
+    @include should(expect(type-of(to-bool("string"))), to(equal('bool')));
+    @include should(expect(type-of(to-bool("this is a string"))), to(equal('bool')));
+    @include should(expect(type-of(to-bool("true"))), to(equal('bool')));
+    @include should(expect(type-of(to-bool("false"))), to(equal('bool')));
+    @include should(expect(type-of(to-bool("42"))), to(equal('bool')));
+    @include should(expect(type-of(to-bool("0"))), to(equal('bool')));
+    @include should(expect(type-of(to-bool("-0"))), to(equal('bool')));
+    @include should(expect(type-of(to-bool("1"))), to(equal('bool')));
+    @include should(expect(type-of(to-bool("4.2"))), to(equal('bool')));
+    @include should(expect(type-of(to-bool("-42"))), to(equal('bool')));
+    @include should(expect(type-of(to-bool("-4.2"))), to(equal('bool')));
+    @include should(expect(type-of(to-bool("42em"))), to(equal('bool')));
+    @include should(expect(type-of(to-bool("4.2em"))), to(equal('bool')));
+    @include should(expect(type-of(to-bool("-42em"))), to(equal('bool')));
+    @include should(expect(type-of(to-bool("-4.2em"))), to(equal('bool')));
+    @include should(expect(type-of(to-bool('#000'))), to(equal('bool')));
+    @include should(expect(type-of(to-bool('#000000'))), to(equal('bool')));
+    @include should(expect(type-of(to-bool('black'))), to(equal('bool')));
+    @include should(expect(type-of(to-bool('rgb(0,0,0)'))), to(equal('bool')));
+    @include should(expect(type-of(to-bool('rgba(0,0,0,.5)'))), to(equal('bool')));
+    @include should(expect(type-of(to-bool('hsl(0,0,0)'))), to(equal('bool')));
+    @include should(expect(type-of(to-bool('hsla(0,0,0, .5)'))), to(equal('bool')));
+  }
+
+  @include it("should cast a color to a bool") {
+    @include should(expect(to-bool(())), to(equal(true)));
+    @include should(expect(to-bool(#000)), to(equal(true)));
+    @include should(expect(to-bool(#000000)), to(equal(true)));
+    @include should(expect(to-bool(black)), to(equal(true)));
+    @include should(expect(to-bool(rgb(0,0,0))), to(equal(true)));
+    @include should(expect(to-bool(rgba(0,0,0,.5))), to(equal(true)));
+    @include should(expect(to-bool(hsl(0,0,0))), to(equal(true)));
+    @include should(expect(to-bool(hsla(0,0,0, .5))), to(equal(true)));
+
+    @include should(expect(type-of(to-bool(#000))), to(equal('bool')));
+    @include should(expect(type-of(to-bool(#000000))), to(equal('bool')));
+    @include should(expect(type-of(to-bool(black))), to(equal('bool')));
+    @include should(expect(type-of(to-bool(rgb(0,0,0)))), to(equal('bool')));
+    @include should(expect(type-of(to-bool(rgba(0,0,0,.5)))), to(equal('bool')));
+    @include should(expect(type-of(to-bool(hsl(0,0,0)))), to(equal('bool')));
+    @include should(expect(type-of(to-bool(hsla(0,0,0, .5)))), to(equal('bool')));
+  }
+
+  @include it("should cast a bool to a bool") {
+    @include should(expect(to-bool(true)), to(equal(true)));
+    @include should(expect(to-bool(false)), to(equal(false)));
+
+    @include should(expect(type-of(to-bool(true))), to(equal('bool')));
+    @include should(expect(type-of(to-bool(false))), to(equal('bool')));
+  }
+
+  @include it("should cast a list to a bool") {
+    @include should(expect(to-bool(this is a list)), to(equal(true)));
+    
+    @include should(expect(type-of(to-bool(()))), to(equal('bool')));
+    @include should(expect(type-of(to-bool(this is a list))), to(equal('bool')));
+  }
+
+  @include it("should cast a map to a bool") {
+    @include should(expect(to-bool(("a": 1, "b": 2))), to(equal(true)));
+    
+    @include should(expect(type-of(to-bool(("a": 1, "b": 2)))), to(equal('bool')));
+  }
+
+  @include it("should cast null to a bool") {
+    @include should(expect(to-bool(null)), to(equal(false)));
+    
+    @include should(expect(type-of(to-bool(null))), to(equal('bool')));
+  }
+}

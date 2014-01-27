@@ -1,0 +1,65 @@
+@import "helpers/find-integer";
+@import "helpers/find-digits";
+@import "helpers/pow";
+@import "helpers/length";
+
+// Parses a JSON encoded number
+// --------------------------------------------------------------------------------
+// @param [string] $source: JSON complete source
+// @param [number] $pointer: current pointer
+// --------------------------------------------------------------------------------
+// @throw "Unexpected token $token."
+// @throw "Unexpected end of stream."
+// --------------------------------------------------------------------------------
+// @return [list|false] (new pointer, parsed number)
+
+@function to-number($source) {
+  @if type-of($source) == number {
+    @return $source;
+  }
+
+  @if $source == true  {
+    @return 1;
+  }
+
+  @if type-of($source) != string {
+    @return 0;
+  }
+
+  $pointer: 1;
+  $result: 0;
+  $allowed: '-' '0' '1' '2' '3' '4' '5' '6' '7' '8' '9'; // Allowed characted to start with
+  $first: str-slice($source, $pointer, $pointer); // First character of the number
+  $minus: $first == '-'; // Is it negative?
+
+  // Early check for errors
+  @if not index($allowed, $first) {
+    //@warn "Could not cast `#{inspect($source)} into number.";
+    @return 0;
+  }
+
+  // Find the integer part
+  $find-integer: _find-integer($source, $pointer);
+  $pointer: nth($find-integer, 1);
+  $result:  nth($find-integer, 2);
+
+  // Find digits
+  @if str-slice($source, $pointer, $pointer) == '.' {
+    $find-digits: _find-digits($source, $pointer);
+    $pointer: nth($find-digits, 1);
+    $digits:  nth($find-digits, 2);
+    $result: $result + $digits;
+  }
+
+  @if $minus {
+    $result: $result * -1;
+  }
+
+
+//  @return $result $pointer str-length($source);
+  @if $pointer < str-length($source) {
+    $result: _length($result, str-slice($source, $pointer));
+  }
+
+  @return $result;
+}

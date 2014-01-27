@@ -1,0 +1,32 @@
+{
+  "name": "SassyCast",
+  "version": "1.0.0",
+  "description": "A Sass API data type conversion.",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HugoGiraudel/SassyCast"
+  },
+  "keywords": [
+    "sass",
+    "scss",
+    "cast",
+    "type",
+    "data type"
+  ],
+  "author": "Hugo Giraudel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/HugoGiraudel/SassyCast/issues"
+  },
+  "homepage": "https://github.com/HugoGiraudel/SassyCast",
+  "devDependencies": {
+    "grunt-contrib-sass": "~0.6.0",
+    "grunt": "~0.4.2",
+    "bootcamp": "~1.1.2",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-contrib-concat": "~0.3.0"
+  }
+}

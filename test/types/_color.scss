@@ -1,0 +1,123 @@
+@include describe("The to-color function") {
+  @include it("should cast a string to a color") {
+    @include should(expect(to-color("")), to(equal(null)));
+    @include should(expect(to-color("string")), to(equal(null)));
+    @include should(expect(to-color("this is a string")), to(equal(null)));
+    @include should(expect(to-color("true")), to(equal(null)));
+    @include should(expect(to-color("false")), to(equal(null)));
+    @include should(expect(to-color("0")), to(equal(null)));
+    @include should(expect(to-color("-0")), to(equal(null)));
+    @include should(expect(to-color("1")), to(equal(null)));
+    @include should(expect(to-color("42")), to(equal(null)));
+    @include should(expect(to-color("4.2")), to(equal(null)));
+    @include should(expect(to-color("-42")), to(equal(null)));
+    @include should(expect(to-color("-4.2")), to(equal(null)));
+    @include should(expect(to-color("42em")), to(equal(null)));
+    @include should(expect(to-color("4.2em")), to(equal(null)));
+    @include should(expect(to-color("-42em")), to(equal(null)));
+    @include should(expect(to-color("-4.2em")), to(equal(null)));
+    @include should(expect(to-color('#000')), to(equal(black)));
+    @include should(expect(to-color('#000000')), to(equal(black)));
+    @include should(expect(to-color('black')), to(equal(black)));
+    @include should(expect(to-color('rgb(0,0,0)')), to(equal(black)));
+    @include should(expect(to-color('rgba(0,0,0,.5)')), to(equal(rgba(0,0,0,.5))));
+    @include should(expect(to-color('hsl(0,0,0)')), to(equal(black)));
+    @include should(expect(to-color('hsla(0,0,0, .5)')), to(equal(rgba(0,0,0,.5))));
+
+    @include should(expect(type-of(to-color(""))), to(equal('null')));
+    @include should(expect(type-of(to-color("string"))), to(equal('null')));
+    @include should(expect(type-of(to-color("this is a string"))), to(equal('null')));
+    @include should(expect(type-of(to-color("true"))), to(equal('null')));
+    @include should(expect(type-of(to-color("false"))), to(equal('null')));
+    @include should(expect(type-of(to-color("42"))), to(equal('null')));
+    @include should(expect(type-of(to-color("0"))), to(equal('null')));
+    @include should(expect(type-of(to-color("-0"))), to(equal('null')));
+    @include should(expect(type-of(to-color("1"))), to(equal('null')));
+    @include should(expect(type-of(to-color("4.2"))), to(equal('null')));
+    @include should(expect(type-of(to-color("-42"))), to(equal('null')));
+    @include should(expect(type-of(to-color("-4.2"))), to(equal('null')));
+    @include should(expect(type-of(to-color("42em"))), to(equal('null')));
+    @include should(expect(type-of(to-color("4.2em"))), to(equal('null')));
+    @include should(expect(type-of(to-color("-42em"))), to(equal('null')));
+    @include should(expect(type-of(to-color("-4.2em"))), to(equal('null')));
+    @include should(expect(type-of(to-color('#000'))), to(equal('color')));
+    @include should(expect(type-of(to-color('#000000'))), to(equal('color')));
+    @include should(expect(type-of(to-color('black'))), to(equal('color')));
+    @include should(expect(type-of(to-color('rgb(0,0,0)'))), to(equal('color')));
+    @include should(expect(type-of(to-color('rgba(0,0,0,.5)'))), to(equal('color')));
+    @include should(expect(type-of(to-color('hsl(0,0,0)'))), to(equal('color')));
+    @include should(expect(type-of(to-color('hsla(0,0,0, .5)'))), to(equal('color')));
+  }
+
+  @include it("should cast a number to a color") {
+    @include should(expect(to-color(-0)), to(equal(null)));
+    @include should(expect(to-color(0)), to(equal(null)));
+    @include should(expect(to-color(1)), to(equal(null)));
+    @include should(expect(to-color(42)), to(equal(null)));
+    @include should(expect(to-color(-42)), to(equal(null)));
+    @include should(expect(to-color(-4.2)), to(equal(null)));
+    @include should(expect(to-color(4.2)), to(equal(null)));
+    @include should(expect(to-color(42em)), to(equal(null)));
+    @include should(expect(to-color(-42em)), to(equal(null)));
+    @include should(expect(to-color(-4.2em)), to(equal(null)));
+    @include should(expect(to-color(4.2em)), to(equal(null)));
+
+    @include should(expect(type-of(to-color(0))), to(equal('null')));
+    @include should(expect(type-of(to-color(0))), to(equal('null')));
+    @include should(expect(type-of(to-color(1))), to(equal('null')));
+    @include should(expect(type-of(to-color(42))), to(equal('null')));
+    @include should(expect(type-of(to-color(-42))), to(equal('null')));
+    @include should(expect(type-of(to-color(-4.2))), to(equal('null')));
+    @include should(expect(type-of(to-color(4.2))), to(equal('null')));
+    @include should(expect(type-of(to-color(42em))), to(equal('null')));
+    @include should(expect(type-of(to-color(-42em))), to(equal('null')));
+    @include should(expect(type-of(to-color(-4.2em))), to(equal('null')));
+    @include should(expect(type-of(to-color(4.2em))), to(equal('null')));
+  }
+
+  @include it("should cast a color to a color") {
+    @include should(expect(to-color(#000)), to(equal(#000)));
+    @include should(expect(to-color(#000000)), to(equal(#000000)));
+    @include should(expect(to-color(black)), to(equal(black)));
+    @include should(expect(to-color(rgb(0,0,0))), to(equal(rgb(0,0,0))));
+    @include should(expect(to-color(rgba(0,0,0,.5))), to(equal(rgba(0,0,0,.5))));
+    @include should(expect(to-color(hsl(0,0,0))), to(equal(hsl(0,0,0))));
+    @include should(expect(to-color(hsla(0,0,0, .5))), to(equal(hsla(0,0,0,.5))));
+
+    @include should(expect(type-of(to-color(#000))), to(equal('color')));
+    @include should(expect(type-of(to-color(#000000))), to(equal('color')));
+    @include should(expect(type-of(to-color(black))), to(equal('color')));
+    @include should(expect(type-of(to-color(rgb(0,0,0)))), to(equal('color')));
+    @include should(expect(type-of(to-color(rgba(0,0,0,.5)))), to(equal('color')));
+    @include should(expect(type-of(to-color(hsl(0,0,0)))), to(equal('color')));
+    @include should(expect(type-of(to-color(hsla(0,0,0, .5)))), to(equal('color')));
+  }
+
+  @include it("should cast a bool to a color") {
+    @include should(expect(to-color(true)), to(equal(null)));
+    @include should(expect(to-color(false)), to(equal(null)));
+
+    @include should(expect(type-of(to-color(true))), to(equal('null')));
+    @include should(expect(type-of(to-color(false))), to(equal('null')));
+  }
+
+  @include it("should cast a map to a color") {
+    @include should(expect(to-color(("a": 1, "b": 2))), to(equal(null)));
+
+    @include should(expect(type-of(to-color(("a": 1, "b": 2)))), to(equal('null')));
+  }
+
+  @include it("should cast a list to a color") {
+    @include should(expect(to-color(())), to(equal(null)));
+    @include should(expect(to-color(this is a list)), to(equal(null)));
+
+    @include should(expect(type-of(to-color(()))), to(equal('null')));
+    @include should(expect(type-of(to-color(this is a list))), to(equal('null')));
+  }
+
+  @include it("should cast null to a color") {
+    @include should(expect(to-color(null)), to(equal(null)));
+
+    @include should(expect(type-of(to-color(null))), to(equal('null')));
+  }
+}

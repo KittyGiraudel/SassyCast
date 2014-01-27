@@ -1,0 +1,74 @@
+@include describe("The to-list function") {
+  @include it("should cast a string to a list") {
+    @include should(expect(type-of(to-list(""))), to(equal('list')));
+    @include should(expect(type-of(to-list("string"))), to(equal('list')));
+    @include should(expect(type-of(to-list("this is a string"))), to(equal('list')));
+    @include should(expect(type-of(to-list("true"))), to(equal('list')));
+    @include should(expect(type-of(to-list("false"))), to(equal('list')));
+    @include should(expect(type-of(to-list("42"))), to(equal('list')));
+    @include should(expect(type-of(to-list("0"))), to(equal('list')));
+    @include should(expect(type-of(to-list("-0"))), to(equal('list')));
+    @include should(expect(type-of(to-list("1"))), to(equal('list')));
+    @include should(expect(type-of(to-list("4.2"))), to(equal('list')));
+    @include should(expect(type-of(to-list("-42"))), to(equal('list')));
+    @include should(expect(type-of(to-list("-4.2"))), to(equal('list')));
+    @include should(expect(type-of(to-list("42em"))), to(equal('list')));
+    @include should(expect(type-of(to-list("4.2em"))), to(equal('list')));
+    @include should(expect(type-of(to-list("-42em"))), to(equal('list')));
+    @include should(expect(type-of(to-list("-4.2em"))), to(equal('list')));
+    @include should(expect(type-of(to-list('#000'))), to(equal('list')));
+    @include should(expect(type-of(to-list('#000000'))), to(equal('list')));
+    @include should(expect(type-of(to-list('black'))), to(equal('list')));
+    @include should(expect(type-of(to-list('rgb(0,0,0)'))), to(equal('list')));
+    @include should(expect(type-of(to-list('rgba(0,0,0,.5)'))), to(equal('list')));
+    @include should(expect(type-of(to-list('hsl(0,0,0)'))), to(equal('list')));
+    @include should(expect(type-of(to-list('hsla(0,0,0, .5)'))), to(equal('list')));
+  }
+
+  @include it("should cast a number to a list") {
+    @include should(expect(type-of(to-list(-0))), to(equal('list')));
+    @include should(expect(type-of(to-list(0))), to(equal('list')));
+    @include should(expect(type-of(to-list(1))), to(equal('list')));
+    @include should(expect(type-of(to-list(42))), to(equal('list')));
+    @include should(expect(type-of(to-list(-42))), to(equal('list')));
+    @include should(expect(type-of(to-list(-4.2))), to(equal('list')));
+    @include should(expect(type-of(to-list(4.2))), to(equal('list')));
+    @include should(expect(type-of(to-list(42em))), to(equal('list')));
+    @include should(expect(type-of(to-list(-42em))), to(equal('list')));
+    @include should(expect(type-of(to-list(-4.2em))), to(equal('list')));
+    @include should(expect(type-of(to-list(4.2em))), to(equal('list')));
+  }
+
+  @include it("should cast a color to a list") {
+    @include should(expect(type-of(to-list(#000))), to(equal('list')));
+    @include should(expect(type-of(to-list(#000000))), to(equal('list')));
+    @include should(expect(type-of(to-list(black))), to(equal('list')));
+    @include should(expect(type-of(to-list(rgb(0,0,0)))), to(equal('list')));
+    @include should(expect(type-of(to-list(rgba(0,0,0,.5)))), to(equal('list')));
+    @include should(expect(type-of(to-list(hsl(0,0,0)))), to(equal('list')));
+    @include should(expect(type-of(to-list(hsla(0,0,0, .5)))), to(equal('list')));
+  }
+
+  @include it("should cast a bool to a list") {
+    @include should(expect(type-of(to-list(true))), to(equal(list)));
+    @include should(expect(type-of(to-list(false))), to(equal(list)));
+  }
+
+  @include it("should cast a map to a list") {
+    @include should(expect(to-list(("a": 1, "b": 2))), to(equal(("a" 1, "b" 2))));
+
+    @include should(expect(type-of(to-list(("a": 1, "b": 2)))), to(equal(list)));
+  }
+
+  @include it("should cast a list to a list") {
+    @include should(expect(to-list(())), to(equal(())));
+    @include should(expect(to-list(this is a list)), to(equal(this is a list)));
+
+    @include should(expect(type-of(to-list(()))), to(equal(list)));
+    @include should(expect(type-of(to-list(this is a list))), to(equal(list)));
+  }
+
+  @include it("should cast null to a list") {
+    @include should(expect(type-of(to-list(null))), to(equal(list)));
+  }
+}
