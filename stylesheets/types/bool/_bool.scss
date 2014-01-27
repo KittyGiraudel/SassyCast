@@ -5,7 +5,6 @@
 // @return [bool]
 
 @function to-bool($value) {
-  $value: if(type-of($value) == string, to-lower-case($value), $value);
   @if not $value or $value == "" or $value == 0 {
     @return false;
   }
