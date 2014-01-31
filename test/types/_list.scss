@@ -56,8 +56,14 @@
 
   @include it("should cast a map to a list") {
     @include should(expect(to-list(("a": 1, "b": 2))), to(equal(("a" 1, "b" 2))));
+    @include should(expect(to-list(("a": 1, "b": 2), 'both')), to(equal(("a" 1, "b" 2))));
+    @include should(expect(to-list(("a": 1, "b": 2), 'keys')), to(equal("a" "b")));
+    @include should(expect(to-list(("a": 1, "b": 2), 'values')), to(equal(1 2)));
 
     @include should(expect(type-of(to-list(("a": 1, "b": 2)))), to(equal(list)));
+    @include should(expect(type-of(to-list(("a": 1, "b": 2), 'both'))), to(equal(list)));
+    @include should(expect(type-of(to-list(("a": 1, "b": 2), 'keys'))), to(equal(list)));
+    @include should(expect(type-of(to-list(("a": 1, "b": 2), 'values'))), to(equal(list)));
   }
 
   @include it("should cast a list to a list") {
