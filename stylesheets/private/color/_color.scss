@@ -6,11 +6,15 @@
 @import "helpers/get-color-value";
 @import "helpers/hex-to-dec";
 
-// Convert to color
-// --------------------------------------------------------------------------------
-// @param $value: value to cast
-// --------------------------------------------------------------------------------
-// @return [color] | null
+/** 
+ * Convert to color
+ * ---
+ * @access private
+ * ---
+ * @param {*} $value - value to cast
+ * ---
+ * @return {color | null}
+ */
 
 @function _sc-to-color($value) {
   @if type-of($value) == color {

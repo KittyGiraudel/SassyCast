@@ -1,9 +1,11 @@
-// Tries to find a unit that would match a CSS length
-// --------------------------------------------------------------------------------
-// @param [number] $number: number
-// @param [unit] $unit: potential unit
-// --------------------------------------------------------------------------------
-// @return [number] length (0 if cast failed)
+/**
+ * Tries to find a unit that would match a CSS length
+ * ---
+ * @param {number} $number - number
+ * @param {unit}   $unit   - potential unit
+ * ---
+ * @return {number} length (0 if cast failed)
+ */
 
 @function _sc-length($number, $unit) {
   $strings: 'px' 'cm' 'mm' '%' 'ch' 'pica' 'in' 'em' 'rem' 'pt' 'pc' 'ex' 'vw' 'vh' 'vmin' 'vmax';

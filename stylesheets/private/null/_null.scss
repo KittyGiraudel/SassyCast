@@ -1,8 +1,12 @@
-// Convert to null
-// --------------------------------------------------------------------------------
-// @param $value: value to cast
-// --------------------------------------------------------------------------------
-// @return null
+/**
+ * Convert to null
+ * ---
+ * @access private
+ * ---
+ * @param {*} $value - value to cast
+ * ---
+ * @return null
+ */
 
 @function _sc-to-null($value) {
   @return null;

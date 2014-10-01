@@ -5,11 +5,15 @@
 @import "helpers/pow";
 @import "helpers/length";
 
-// Cast a value to a number if possible or return 0
-// --------------------------------------------------------------------------------
-// @param [string] $value: complete source
-// --------------------------------------------------------------------------------
-// @return [number] number (0 if cast failed)
+/*
+ * Cast a value to a number if possible or return 0
+ * ---
+ * @access private
+ * ---
+ * @param {string} $value - complete source
+ * ---
+ * @return {number}
+ */
 
 @function _sc-to-number($value) {
   // In case everything's good

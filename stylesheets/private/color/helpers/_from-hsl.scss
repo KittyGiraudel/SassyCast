@@ -1,8 +1,10 @@
-// Cast a string into a hsl color
-// --------------------------------------------------------------------------------
-// @param [string] $string: string
-// --------------------------------------------------------------------------------
-// @return [color|string] string or hsl color depending on the match
+/**
+ * Cast a string into a hsl color
+ * ---
+ * @param {string} $string - string
+ * ---
+ * @return {color|string} - string or hsl color depending on the match
+ */
 
 @function _sc-from-hsl($string) {
   $frags: ();

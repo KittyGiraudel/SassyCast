@@ -1,8 +1,12 @@
-// Convert to map
-// --------------------------------------------------------------------------------
-// @param $value: value to cast
-// --------------------------------------------------------------------------------
-// @return [map]
+/**
+ * Convert to map
+ * ---
+ * @access private
+ * ---
+ * @param {*} $value - value to cast
+ * ---
+ * @return {map}
+ */
 
 @function _sc-to-map($value) {
   @if type-of($value) == list {

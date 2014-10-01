@@ -1,9 +1,11 @@
-// Finding the integer part of a stringified number
-// --------------------------------------------------------------------------------
-// @param [string] $source: string source
-// @param [number] $pointer: current pointer
-// --------------------------------------------------------------------------------
-// @return [list] (new pointer, parsed number)
+/**
+ * Finding the integer part of a stringified number
+ * ---
+ * @param {string} $source  - string source
+ * @param {number} $pointer - current pointer
+ * ---
+ * @return {list} new pointer, parsed number
+ */
 
 @function _sc-find-integer($source, $pointer) {
   $source: to-lower-case($source);

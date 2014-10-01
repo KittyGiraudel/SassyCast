@@ -1,8 +1,12 @@
-// Convert to list
-// --------------------------------------------------------------------------------
-// @param $value: value to cast
-// --------------------------------------------------------------------------------
-// @return [list]
+/**
+ * Convert to list
+ * ---
+ * @access private
+ * ---
+ * @param {*} $value - value to cast
+ * ---
+ * @return {list}
+ */
 
 @function _sc-to-list($value, $keep: 'both') {
   $keep: if(index('keys' 'values' 'both', $keep), $keep, 'both');

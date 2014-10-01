@@ -1,8 +1,10 @@
-// Cast a string into a rgb color
-// --------------------------------------------------------------------------------
-// @param [string] $string: string
-// --------------------------------------------------------------------------------
-// @return [color|string] string or rgb color depending on the match
+/**
+ * Cast a string into a rgb color
+ * ---
+ * @param {string} $string - string
+ * ---
+ * @return {color|string} - string or rgb color depending on the match
+ */
 
 @function _sc-from-rgb($string) {
   $string-lower: to-lower-case($string);

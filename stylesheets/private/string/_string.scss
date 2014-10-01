@@ -1,8 +1,11 @@
-// Convert to string
-// --------------------------------------------------------------------------------
-// @param $value: value to cast
-// --------------------------------------------------------------------------------
-// @return [string]
+/* Convert to string
+ * ---
+ * @access private
+ * ---
+ * @param {*} $value - value to cast
+ * ---
+ * @return {string}
+ */
 
 @function _sc-to-string($value) {
   @if type-of($value) == color {
