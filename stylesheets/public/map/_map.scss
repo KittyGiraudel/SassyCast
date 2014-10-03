@@ -1,0 +1,13 @@
+/**
+ * Convert to map
+ * ---
+ * @access public
+ * ---
+ * @param {*} $value - value to cast
+ * ---
+ * @return {map}
+ */
+
+@function to-map($value) {
+    @return _sc-to-map($value);
+}

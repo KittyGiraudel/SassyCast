@@ -1,0 +1,13 @@
+/*
+ * Cast a value to a number if possible or return 0
+ * ---
+ * @access public
+ * ---
+ * @param {string} $value - complete source
+ * ---
+ * @return {number}
+ */
+
+@function to-number($value) {
+    @return _sc-to-number($value);
+}

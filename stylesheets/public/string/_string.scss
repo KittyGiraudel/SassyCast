@@ -1,0 +1,12 @@
+/* Convert to string
+ * ---
+ * @access public
+ * ---
+ * @param {*} $value - value to cast
+ * ---
+ * @return {string}
+ */
+
+@function to-string($value) {
+    @return _sc-to-string($value);
+}

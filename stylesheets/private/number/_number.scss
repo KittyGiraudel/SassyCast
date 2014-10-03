@@ -1,0 +1,64 @@
+/*
+ * Cast a value to a number if possible or return 0
+ * ---
+ * @access private
+ * ---
+ * @param {string} $value - complete source
+ * ---
+ * @return {number}
+ */
+
+@function _sc-to-number($value) {
+  // In case everything's good
+  @if type-of($value) == number {
+    @return $value;
+  }
+
+  // Boolean to number
+  @if $value == true  {
+    @return 1;
+  }
+
+  // Fail
+  @if type-of($value) != string {
+    @return 0;
+  }
+
+  // Trying to cast
+  $pointer: 1;
+  $result: 0;
+  $allowed: '-' '0' '1' '2' '3' '4' '5' '6' '7' '8' '9'; // Allowed characted to start with
+  $first: str-slice($value, $pointer, $pointer); // First character of the number
+  $minus: $first == '-'; // Is it negative?
+
+  // Early check for errors
+  @if not index($allowed, $first) {
+    @warn "Could not cast `#{inspect($value)} into number.";
+    @return 0;
+  }
+
+  // Find the integer part
+  $find-integer: _sc-find-integer($value, $pointer);
+  $pointer: nth($find-integer, 1);
+  $result:  nth($find-integer, 2);
+
+  // Find digits
+  @if str-slice($value, $pointer, $pointer) == '.' {
+    $find-digits: _sc-find-digits($value, $pointer);
+    $pointer: nth($find-digits, 1);
+    $digits:  nth($find-digits, 2);
+    $result: $result + $digits;
+  }
+
+  // In case of negative
+  @if $minus {
+    $result: $result * -1;
+  }
+
+  // In case of possible CSS unit
+  @if $pointer < str-length($value) {
+    $result: _sc-length($result, str-slice($value, $pointer));
+  }
+
+  @return $result;
+}

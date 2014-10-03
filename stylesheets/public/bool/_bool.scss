@@ -1,0 +1,13 @@
+/**
+ * Convert to bool
+ * ---
+ * @access public
+ * ---
+ * @param {*} $value - value to cast
+ * ---
+ * @return {bool}
+ */
+
+@function to-bool($value) {
+    @return _sc-to-bool($value);
+}

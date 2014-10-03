@@ -1,0 +1,13 @@
+/**
+ * Convert to list
+ * ---
+ * @access public
+ * ---
+ * @param {*} $value - value to cast
+ * ---
+ * @return {list}
+ */
+
+@function to-list($value, $keep: 'both') {
+    @return _sc-to-list($value,$keep);
+}

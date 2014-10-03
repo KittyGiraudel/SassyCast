@@ -1,7 +1,2 @@
-@import "types/bool/bool";
-@import "types/number/number";
-@import "types/string/string";
-@import "types/list/list";
-@import "types/map/map";
-@import "types/null/null";
-@import "types/color/color";
+@import "private/all";
+@import "public/all";

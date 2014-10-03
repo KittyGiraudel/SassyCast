@@ -1,0 +1,34 @@
+/**
+ * Convert to list
+ * ---
+ * @access private
+ * ---
+ * @param {*} $value - value to cast
+ * ---
+ * @return {list}
+ */
+
+@function _sc-to-list($value, $keep: 'both') {
+  $keep: if(index('keys' 'values' 'both', $keep), $keep, 'both');
+  
+  @if type-of($value) == map {
+    $keys: ();
+    $values: ();
+    @each $key, $val in $value {
+      $keys: append($keys, $key);
+      $values: append($values, $val);
+    }
+
+    @if $keep == 'keys' {
+      @return $keys;
+    }
+    @else if $keep == 'values' {
+      @return $values;
+    }
+    @else {
+      @return zip($keys, $values);
+    }
+  }
+
+  @return if(type-of($value) != list, ($value,), $value);
+}

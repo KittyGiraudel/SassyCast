@@ -1,0 +1,15 @@
+/* Convert to string
+ * ---
+ * @access private
+ * ---
+ * @param {*} $value - value to cast
+ * ---
+ * @return {string}
+ */
+
+@function _sc-to-string($value) {
+  @if type-of($value) == color {
+    @warn "Beware! Sass does some color conversion. The resulting string may be different from the color input.";
+  }
+  @return if(type-of($value) != string, inspect($value), $value);
+}

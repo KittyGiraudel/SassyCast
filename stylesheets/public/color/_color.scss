@@ -1,0 +1,13 @@
+/** 
+ * Convert to color
+ * ---
+ * @access public
+ * ---
+ * @param {*} $value - value to cast
+ * ---
+ * @return {color | null}
+ */
+
+@function to-color($value) {
+    @return _sc-to-color($value);
+}

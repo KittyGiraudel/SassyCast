@@ -1,0 +1,23 @@
+/**
+ * Convert to map
+ * ---
+ * @access private
+ * ---
+ * @param {*} $value - value to cast
+ * ---
+ * @return {map}
+ */
+
+@function _sc-to-map($value) {
+    @if type-of($value) == list {
+        $map: ();
+        @if length($value) > 1 {
+            @for $i from 1 through length($value) {
+                $map: map-merge($map, ($i: nth($value, $i)));
+            }
+        }
+        @return $map;
+    }
+
+    @return if(type-of($value) != map, (1: $value), $value);
+}

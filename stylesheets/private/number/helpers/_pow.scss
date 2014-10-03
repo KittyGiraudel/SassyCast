@@ -1,0 +1,24 @@
+/**
+ * Power function
+ * ---
+ * @param {number} $x - number
+ * @param {number} $n - power
+ * ---
+ * @return [number] $x ^ $n
+ */
+
+@function _sc-pow($x, $n) {
+  $ret: 1;
+
+  @if $n >= 0 {
+    @for $i from 1 through $n {
+      $ret: $ret * $x;
+    }
+  } @else {
+    @for $i from $n to 0 {
+      $ret: $ret / $x;
+    }
+  }
+
+  @return $ret;
+}
