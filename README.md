@@ -116,4 +116,8 @@ to-color((this: is a map));     // null
 * When trying to cast something to a number that cannot be converted, it returns `0`
 * When trying to cast something to a color that cannot be converted, it returns `null`
 * Casting to a map use `1` as key (and index in case of a list)
-* Color formats are converted automatically by Sass; when casting a color to string, the resulting string can be different from the color input
+* Color formats are sometimes converted automatically by Sass; when casting a color to string, the resulting string can be different from the color input
+
+## Credits
+
+Huge thanks to [Marc Mintel](http://twitter.com/marcmintel) for his help.
