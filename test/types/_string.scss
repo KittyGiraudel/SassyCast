@@ -76,8 +76,8 @@
   }
 
   @include it("should cast a color to a string") {
-    @include should(expect(to-string(#000)), to(equal('black')));
-    @include should(expect(to-string(#000000)), to(equal('black')));
+    @include should(expect(to-string(#000)), to(equal('#000')));
+    @include should(expect(to-string(#000000)), to(equal('#000000')));
     @include should(expect(to-string(black)), to(equal('black')));
     @include should(expect(to-string(rgb(0,0,0))), to(equal('black')));
     @include should(expect(to-string(rgba(0,0,0,.5))), to(equal('rgba(0, 0, 0, 0.5)')));
@@ -117,7 +117,7 @@
 
   @include it("should cast a map to a string") {
     @include should(expect(type-of(to-string(("a": 1, "b": 2)))), to(equal('string')));
- 
+
     @include should(expect(to-string(("a": 1, "b": 2))), to(equal('("a": 1, "b": 2)')));
   }
 }
