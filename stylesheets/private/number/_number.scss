@@ -38,13 +38,13 @@
   }
 
   // Find the integer part
-  $find-integer: _find-integer($value, $pointer);
+  $find-integer: _sc-find-integer($value, $pointer);
   $pointer: nth($find-integer, 1);
   $result:  nth($find-integer, 2);
 
   // Find digits
   @if str-slice($value, $pointer, $pointer) == '.' {
-    $find-digits: _find-digits($value, $pointer);
+    $find-digits: _sc-find-digits($value, $pointer);
     $pointer: nth($find-digits, 1);
     $digits:  nth($find-digits, 2);
     $result: $result + $digits;
@@ -57,7 +57,7 @@
 
   // In case of possible CSS unit
   @if $pointer < str-length($value) {
-    $result: _length($result, str-slice($value, $pointer));
+    $result: _sc-length($result, str-slice($value, $pointer));
   }
 
   @return $result;

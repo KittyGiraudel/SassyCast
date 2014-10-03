@@ -39,17 +39,17 @@
   
   // Deal with hexadecimal triplets
   @else if str-slice($value-lower, 1, 1) == '#' {
-    @return _from-hex($value);
+    @return _sc-from-hex($value);
   }
   
   // Deal with rgb(a) colors
   @else if str-slice($value-lower, 1, 3) == 'rgb' {
-    @return _from-rgb($value);
+    @return _sc-from-rgb($value);
   }
   
   // Deal with hsl(a) colors
   @else if str-slice($value-lower, 1, 3) == 'hsl' {
-    @return _from-hsl($value);
+    @return _sc-from-hsl($value);
   }
   
   // Return value
