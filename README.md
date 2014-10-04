@@ -3,6 +3,19 @@ SassyCast
 
 SassyCast is a simple API for type conversion in Sass.
 
+# Installation
+Download [from Github] (https://github.com/HugoGiraudel/SassyCast/archive/master.zip) or ..
+
+## Install via ruby gems
+```
+gem install SassyCast
+````
+
+## Install via bower
+```
+bower install sassy-cast
+```
+
 ## `to-bool`
 
 ``` scss
