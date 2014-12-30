@@ -1,13 +1,3 @@
-/**
- * Convert to null
- * ---
- * @access public
- * ---
- * @param {*} $value - value to cast
- * ---
- * @return null
- */
-
 @function to-null($value) {
   @return _sc-to-null($value);
 }

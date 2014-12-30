@@ -4,7 +4,8 @@ SassyCast
 SassyCast is a simple API for type conversion in Sass.
 
 # Installation
-Download [from Github] (https://github.com/HugoGiraudel/SassyCast/archive/master.zip) or ..
+
+Clone repository or download [from Github](https://github.com/HugoGiraudel/SassyCast/archive/master.zip).
 
 ## Install via ruby gems
 ```

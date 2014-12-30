@@ -1,17 +1,12 @@
-/**
- * Convert to list
- * ---
- * @access private
- * ---
- * @param {*} $value - value to cast
- * ---
- * @return {list}
- */
+/// Convert to list
+/// @access private
+/// @param {*} $value - value to cast
+/// @param {String} $keep ("both") - whether to keep `keys`, `values` or `both` when casting a map
+/// @return {List}
+@function _sc-to-list($value, $keep: "both") {
+  $keep: if(index("keys" "values" "both", $keep), $keep, "both");
 
-@function _sc-to-list($value, $keep: 'both') {
-  $keep: if(index('keys' 'values' 'both', $keep), $keep, 'both');
-  
-  @if type-of($value) == map {
+  @if type-of($value) == "map" {
     $keys: ();
     $values: ();
     @each $key, $val in $value {
@@ -19,10 +14,10 @@
       $values: append($values, $val);
     }
 
-    @if $keep == 'keys' {
+    @if $keep == "keys" {
       @return $keys;
     }
-    @else if $keep == 'values' {
+    @else if $keep == "values" {
       @return $values;
     }
     @else {

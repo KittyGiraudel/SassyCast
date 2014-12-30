@@ -1,12 +1,7 @@
-/**
- * Power function
- * ---
- * @param {number} $x - number
- * @param {number} $n - power
- * ---
- * @return [number] $x ^ $n
- */
-
+/// Power function
+/// @param {Number} $x - number
+/// @param {Number} $n - power
+/// @return {Number} $x ^ $n
 @function _sc-pow($x, $n) {
   $ret: 1;
 

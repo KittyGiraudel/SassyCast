@@ -1,16 +1,10 @@
-/*
- * Cast a value to a number if possible or return 0
- * ---
- * @access private
- * ---
- * @param {string} $value - complete source
- * ---
- * @return {number}
- */
-
+/// Cast a value to a number if possible or return 0
+/// @access private
+/// @param {String} $value - complete source
+/// @return {Number}
 @function _sc-to-number($value) {
   // In case everything's good
-  @if type-of($value) == number {
+  @if type-of($value) == "number" {
     @return $value;
   }
 
@@ -20,16 +14,16 @@
   }
 
   // Fail
-  @if type-of($value) != string {
+  @if type-of($value) != "string" {
     @return 0;
   }
 
   // Trying to cast
   $pointer: 1;
   $result: 0;
-  $allowed: '-' '0' '1' '2' '3' '4' '5' '6' '7' '8' '9'; // Allowed characted to start with
+  $allowed: "-" "0" "1" "2" "3" "4" "5" "6" "7" "8" "9"; // Allowed characted to start with
   $first: str-slice($value, $pointer, $pointer); // First character of the number
-  $minus: $first == '-'; // Is it negative?
+  $minus: $first == "-"; // Is it negative?
 
   // Early check for errors
   @if not index($allowed, $first) {
@@ -43,7 +37,7 @@
   $result:  nth($find-integer, 2);
 
   // Find digits
-  @if str-slice($value, $pointer, $pointer) == '.' {
+  @if str-slice($value, $pointer, $pointer) == "." {
     $find-digits: _sc-find-digits($value, $pointer);
     $pointer: nth($find-digits, 1);
     $digits:  nth($find-digits, 2);
