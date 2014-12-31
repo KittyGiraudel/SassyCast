@@ -1,4 +1,5 @@
 /// Tries to find a unit that would match a CSS length
+/// @access private
 /// @param {Number} $number - number
 /// @param {String}   $unit - potential unit
 /// @return {Number} length (0 if cast failed)

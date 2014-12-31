@@ -1,11 +1,8 @@
-/**
- * Cast a string into a rgb color
- * ---
- * @param {string} $string - string
- * ---
- * @return {color|string} - string or rgb color depending on the match
- */
-
+/// Cast a string into a rgb color
+/// @access private
+/// @param {String} $string - string
+/// @return {Color | String} - string or rgb color depending on the match
+/// @require {function} _get-color-value
 @function _sc-from-rgb($string) {
   $string-lower: to-lower-case($string);
   $frags: ();
@@ -43,7 +40,7 @@
     @else {
       $frags: set-nth($frags, length($frags), nth($frags, length($frags)) + $token);
     }
-  } 
+  }
 
   @return $string;
 }

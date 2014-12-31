@@ -1,11 +1,8 @@
-/**
- * Cast a stringified number / stringified percentage into number type
- * ---
- * @param {string} $string: string
- * ---
- * @return {number} - unitless number or percentage
- */
-
+/// Cast a stringified number / stringified percentage into number type
+/// @access private
+/// @param {string} $string - string
+/// @return {Number} - unitless number or percentage
+/// @require {function} to-number
 @function _sc-get-color-value($string) {
   $first: str-slice($string, 1, 1);
 
@@ -15,6 +12,6 @@
   }
 
   $last: str-slice($string, -1, -1);
-  
+
   @return if($last == '%', to-number(str-slice($string, 1, -2), 2) * 1%, to-number($string));
 }

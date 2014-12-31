@@ -1,11 +1,8 @@
-/**
- * Cast a string into a hexadecimal color
- * ---
- * @param {string} $string - string
- * ---
- * @return {color|string} - string or hex color depending on the match
- */
-
+/// Cast a string into a hexadecimal color
+/// @access private
+/// @param {string} $string - string
+/// @return {Color | String} - string or hex color depending on the match
+/// @require {function} _hex-to-dec
 @function _sc-from-hex($string) {
   $string-lower: to-lower-case($string);
   $r: "";  $g: ""; $b: "";
@@ -31,12 +28,12 @@
     @else if str-length($g) < $max { $g: $g + $c }
     @else if str-length($b) < $max { $b: $b + $c }
   }
-  
+
   @if $length == 4 {
     $r: $r + $r;
     $g: $g + $g;
     $b: $b + $b;
   }
-  
+
   @return rgb(_hex-to-dec($r), _hex-to-dec($g), _hex-to-dec($b));
 }

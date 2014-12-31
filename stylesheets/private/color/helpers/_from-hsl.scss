@@ -1,11 +1,8 @@
-/**
- * Cast a string into a hsl color
- * ---
- * @param {string} $string - string
- * ---
- * @return {color|string} - string or hsl color depending on the match
- */
-
+/// Cast a string into a hsl color
+/// @access private
+/// @param {string} $string - string
+/// @return {Color | String} - string or hsl color depending on the match
+/// @require {function} _get-color-value
 @function _sc-from-hsl($string) {
   $frags: ();
   $string-lower: to-lower-case($string);
@@ -43,7 +40,7 @@
     @else {
       $frags: set-nth($frags, length($frags), nth($frags, length($frags)) + $token);
     }
-  } 
+  }
 
   @return $string;
 }
