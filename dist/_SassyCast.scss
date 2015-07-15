@@ -1,1 +1,474 @@
-/*! SassyCast - v1.0.0 - 2014-01-31 */
+/*! SassyCast - v1.1.1 - 2015-07-15 */
+/// Cast a string into a rgb color
+/// @access private
+/// @param {String} $string - string
+/// @return {Color | String} - string or rgb color depending on the match
+/// @require {function} _get-color-value
+@function _sc-from-rgb($string) {
+  $string-lower: to-lower-case($string);
+  $frags: ();
+  $is-alpha: str-slice($string-lower, 4, 4) == 'a';
+  $start: str-index($string, "(");
+  $length: str-length($string);
+
+  @for $i from $start through $length {
+    $token: str-slice($string-lower, $i, $i);
+    @if $token == ' ' {
+      // @continue;
+    }
+    @else if $token == '(' or $token == ',' {
+      $frags: append($frags, "");
+    }
+    @else if $token == ')' {
+      @if length($frags) != if($is-alpha, 4, 3) { @return $string; } // Parsing error
+      $red: _get-color-value(nth($frags, 1));
+      $green: _get-color-value(nth($frags, 2));
+      $blue: _get-color-value(nth($frags, 3));
+
+      @if not $red or not $green or not $blue {
+        @return $string;
+      }
+
+      @if $is-alpha {
+        @if length($frags) != 4 { @return $string; } // No alpha channel found
+        $alpha: _get-color-value(nth($frags, 4));
+        @if not $alpha { @return $string; } // Error parsing alpha channel
+        @return rgba($red, $green, $blue, $alpha);
+      }
+
+      @return rgb($red, $green, $blue);
+    }
+    @else {
+      $frags: set-nth($frags, length($frags), nth($frags, length($frags)) + $token);
+    }
+  }
+
+  @return $string;
+}
+
+/// Cast a string into a hsl color
+/// @access private
+/// @param {string} $string - string
+/// @return {Color | String} - string or hsl color depending on the match
+/// @require {function} _get-color-value
+@function _sc-from-hsl($string) {
+  $frags: ();
+  $string-lower: to-lower-case($string);
+  $is-alpha: str-slice($string-lower, 4, 4) == 'a';
+  $length: str-length($string);
+  $start: str-index($string, "(");
+
+  @for $i from $start through $length {
+    $token: str-slice($string-lower, $i, $i);
+    @if $token == ' ' {
+      // @continue;
+    }
+    @else if $token == '(' or $token == ',' {
+      $frags: append($frags, "");
+    }
+    @else if $token == ')' {
+      @if length($frags) != if($is-alpha, 4, 3) { @return $string; } // Parsing error
+      $hue: _get-color-value(nth($frags, 1));
+      $saturation: _get-color-value(nth($frags, 2));
+      $lightness: _get-color-value(nth($frags, 3));
+
+      @if not $hue or not $saturation or not $lightness {
+        @return $string;
+      }
+
+      @if $is-alpha {
+        @if length($frags) != 4 { @return $string; } // No alpha channel found
+        $alpha: _get-color-value(nth($frags, 4));
+        @if not $alpha { @return $string; } // Error parsing alpha channel
+        @return hsla($hue, $saturation, $lightness, $alpha);
+      }
+
+      @return hsl($hue, $saturation, $lightness);
+    }
+    @else {
+      $frags: set-nth($frags, length($frags), nth($frags, length($frags)) + $token);
+    }
+  }
+
+  @return $string;
+}
+
+/// Cast a string into a hexadecimal color
+/// @access private
+/// @param {string} $string - string
+/// @return {Color | String} - string or hex color depending on the match
+/// @require {function} _hex-to-dec
+@function _sc-from-hex($string) {
+  $string-lower: to-lower-case($string);
+  $r: "";  $g: ""; $b: "";
+  $hex: "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" "a" "b" "c" "d" "e" "f";
+  $length: str-length($string);
+  $max: if($length == 4, 1, 2);
+
+  // Check for length accuracy
+  @if $length != 4 and $length != 7 {
+    @return $string;
+  }
+
+  // Loop from the second character (omitting #)
+  @for $i from 2 through $length {
+    $c: str-slice($string-lower, $i, $i);
+
+    // If wrong character, return
+    @if not index($hex, $c) {
+      @return $string;
+    }
+
+    @if      str-length($r) < $max { $r: $r + $c }
+    @else if str-length($g) < $max { $g: $g + $c }
+    @else if str-length($b) < $max { $b: $b + $c }
+  }
+
+  @if $length == 4 {
+    $r: $r + $r;
+    $g: $g + $g;
+    $b: $b + $b;
+  }
+
+  @return rgb(_hex-to-dec($r), _hex-to-dec($g), _hex-to-dec($b));
+}
+
+/// Convert an hexadecimal number to a decimal number
+/// @access private
+/// @param {String} $string - hexadecimal value
+/// @return {Number} - decimal number
+@function _sc-hex-to-dec($string){
+  $hex: "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" "a" "b" "c" "d" "e" "f";
+  $string: to-lower-case($string);
+  $length: str-length($string);
+
+  $dec: 0;
+  @for $i from 1 through $length {
+    $factor: 1 + ( 15 * ( $length - $i ));
+    $index: index($hex, str-slice($string, $i, $i));
+    $dec: $dec + $factor * ($index - 1);
+  }
+
+  @return $dec;
+}
+
+/// Convert to color
+/// @param {*} $value - value to cast
+/// @return {color | null}
+@function _sc-to-color($value) {
+  @if type-of($value) == "color" {
+    @return $value;
+  }
+
+  @if type-of($value) != "string" {
+    //@warn "Could not cast `#{inspect($value)}` to color.";
+    @return null;
+  }
+
+  $value-lower: to-lower-case($value);
+  $colors: transparent black silver gray white maroon red purple fuchsia green lime olive yellow navy blue teal aqua aliceblue antiquewhite aqua aquamarine azure beige bisque black blanchedalmond blue blueviolet brown burlywood cadetblue chartreuse chocolate coral cornflowerblue cornsilk crimson cyan darkblue darkcyan darkgoldenrod darkgray darkgreen darkgrey darkkhaki darkmagenta darkolivegreen darkorange darkorchid darkred darksalmon darkseagreen darkslateblue darkslategray darkslategrey darkturquoise darkviolet deeppink deepskyblue dimgray dimgrey dodgerblue firebrick floralwhite forestgreen fuchsia gainsboro ghostwhite gold goldenrod gray green greenyellow grey honeydew hotpink indianred indigo ivory khaki lavender lavenderblush lawngreen lemonchiffon lightblue lightcoral lightcyan lightgoldenrodyellow lightgray lightgreen lightgrey lightpink lightsalmon lightseagreen lightskyblue lightslategray lightslategrey lightsteelblue lightyellow lime limegreen linen magenta maroon mediumaquamarine mediumblue mediumorchid mediumpurple mediumseagreen mediumslateblue mediumspringgreen mediumturquoise mediumvioletred midnightblue mintcream mistyrose moccasin navajowhite navy oldlace olive olivedrab orange orangered orchid palegoldenrod palegreen paleturquoise palevioletred papayawhip peachpuff peru pink plum powderblue purple red rosybrown royalblue saddlebrown salmon sandybrown seagreen seashell sienna silver skyblue slateblue slategray slategrey snow springgreen steelblue tan teal thistle tomato turquoise violet wheat white whitesmoke yellow yellowgreen;
+  $keywords: ();
+
+  // Filling $keywords with stringified color keywords
+  @each $color in $colors {
+    $keywords: append($keywords, $color + "");
+  }
+
+  // Deal with inherit keyword
+  @if $value-lower == "inherit" {
+    @return unquote($value);
+  }
+
+  // Deal with color keywords
+  @if index($keywords, $value-lower) {
+    @return nth($colors, index($keywords, $value-lower));
+  }
+
+  // Deal with hexadecimal triplets
+  @else if str-slice($value-lower, 1, 1) == "#" {
+    @return _sc-from-hex($value);
+  }
+
+  // Deal with rgb(a) colors
+  @else if str-slice($value-lower, 1, 3) == "rgb" {
+    @return _sc-from-rgb($value);
+  }
+
+  // Deal with hsl(a) colors
+  @else if str-slice($value-lower, 1, 3) == "hsl" {
+    @return _sc-from-hsl($value);
+  }
+
+  // Return value
+  @else {
+    //@warn "Could not cast `#{inspect($value)}` to color.";
+    @return null;
+  }
+}
+
+/// Convert to map
+/// @param {*} $value - value to cast
+/// @return {Map}
+@function _sc-to-map($value) {
+  @if type-of($value) == "list" {
+    $map: ();
+
+    @if length($value) > 1 {
+      @for $i from 1 through length($value) {
+        $map: map-merge($map, ($i: nth($value, $i)));
+      }
+    }
+
+    @return $map;
+  }
+
+  @return if(type-of($value) != map, (1: $value), $value);
+}
+
+/// Convert to bool
+/// @param {*} $value - value to cast
+/// @return {Bool}
+@function _sc-to-bool($value) {
+  @if not $value or $value == "" or $value == 0 {
+    @return false;
+  }
+
+  @return true;
+}
+
+/// Convert to string
+/// @param {*} $value - value to cast
+/// @return {String}
+@function _sc-to-string($value) {
+  @if type-of($value) == "color" {
+    @warn "Beware! Sass does some color conversion. The resulting string may be different from the color input.";
+  }
+
+  @return if(type-of($value) != string, inspect($value), $value);
+}
+
+/// Convert to list
+/// @param {*} $value - value to cast
+/// @param {String} $keep ("both") - whether to keep `keys`, `values` or `both` when casting a map
+/// @return {List}
+@function _sc-to-list($value, $keep: "both") {
+  $keep: if(index("keys" "values" "both", $keep), $keep, "both");
+
+  @if type-of($value) == "map" {
+    $keys: ();
+    $values: ();
+    @each $key, $val in $value {
+      $keys: append($keys, $key);
+      $values: append($values, $val);
+    }
+
+    @if $keep == "keys" {
+      @return $keys;
+    }
+    @else if $keep == "values" {
+      @return $values;
+    }
+    @else {
+      @return zip($keys, $values);
+    }
+  }
+
+  @return if(type-of($value) != list, ($value,), $value);
+}
+
+/// Finding the integer part of a stringified number
+/// @access private
+/// @param {String} $source  - string source
+/// @param {Number} $pointer - current pointer
+/// @return {List} new pointer, parsed number
+@function _sc-find-integer($source, $pointer) {
+  $source: to-lower-case($source);
+  $length: str-length($source);
+  $numbers: "0" "1" "2" "3" "4" "5" "6" "7" "8" "9";
+  $result: 0;
+
+  @while $pointer <= $length {
+    $token: str-slice($source, $pointer, $pointer);
+    $index: index($numbers, $token);
+
+    @if $token == "-" {
+      // @continue;
+    }
+    @else if $index {
+      $result: $result * 10 + ($index - 1);
+    }
+    @else {
+      @return $pointer, $result;
+    }
+
+    $pointer: $pointer + 1;
+  }
+
+  @return $pointer, $result;
+}
+
+
+/// Finding the digits part of a stringified number
+/// @access private
+/// @param {string} $source - string source
+/// @param {Number} $pointer - current pointer
+/// @return {List} - new pointer, parsed number
+@function _sc-find-digits($source, $pointer) {
+  $source: to-lower-case($source);
+  $length: str-length($source);
+  $numbers: "0" "1" "2" "3" "4" "5" "6" "7" "8" "9";
+  $result: 0;
+  $runs: 1;
+
+  @while $pointer <= $length {
+    $token: str-slice($source, $pointer, $pointer);
+    $index: index($numbers, $token);
+
+    @if $token == "." {
+      // @continue;
+    }
+    @else if $index and $index > 0 {
+      $runs: $runs * 10;
+      $result: $result * 10 + ($index - 1);
+    }
+    @else {
+      @return $pointer, $result / $runs;
+    }
+
+    $pointer: $pointer + 1;
+  }
+
+  @return $pointer, $result / $runs;
+}
+
+/// Power function
+/// @access private
+/// @param {Number} $x - number
+/// @param {Number} $n - power
+/// @return {Number} $x ^ $n
+@function _sc-pow($x, $n) {
+  $ret: 1;
+
+  @if $n >= 0 {
+    @for $i from 1 through $n {
+      $ret: $ret * $x;
+    }
+  } @else {
+    @for $i from $n to 0 {
+      $ret: $ret / $x;
+    }
+  }
+
+  @return $ret;
+}
+
+/// Tries to find a unit that would match a CSS length
+/// @access private
+/// @param {Number} $number - number
+/// @param {String}   $unit - potential unit
+/// @return {Number} length (0 if cast failed)
+@function _sc-length($number, $unit) {
+  $strings: 'px' 'cm' 'mm' '%' 'ch' 'pc' 'in' 'em' 'rem' 'pt' 'pc' 'ex' 'vw' 'vh' 'vmin' 'vmax';
+  $units:   1px  1cm  1mm  1%  1ch  1pc  1in  1em  1rem  1pt  1pc  1ex  1vw  1vh  1vmin  1vmax;
+  $index: index($strings, $unit);
+
+  @if not $index {
+    @warn "Unknown unit `#{inspect($unit)}`.";
+    @return 0;
+  }
+
+  @return $number * nth($units, $index);
+}
+
+/// Cast a value to a number if possible or return 0
+/// @param {String} $value - complete source
+/// @return {Number}
+@function _sc-to-number($value) {
+  // In case everything's good
+  @if type-of($value) == "number" {
+    @return $value;
+  }
+
+  // Boolean to number
+  @if $value == true  {
+    @return 1;
+  }
+
+  // Fail
+  @if type-of($value) != "string" {
+    @return 0;
+  }
+
+  // Trying to cast
+  $pointer: 1;
+  $result: 0;
+  $allowed: "-" "0" "1" "2" "3" "4" "5" "6" "7" "8" "9"; // Allowed characted to start with
+  $first: str-slice($value, $pointer, $pointer); // First character of the number
+  $minus: $first == "-"; // Is it negative?
+
+  // Early check for errors
+  @if not index($allowed, $first) {
+    @warn "Could not cast `#{inspect($value)} into number.";
+    @return 0;
+  }
+
+  // Find the integer part
+  $find-integer: _sc-find-integer($value, $pointer);
+  $pointer: nth($find-integer, 1);
+  $result:  nth($find-integer, 2);
+
+  // Find digits
+  @if str-slice($value, $pointer, $pointer) == "." {
+    $find-digits: _sc-find-digits($value, $pointer);
+    $pointer: nth($find-digits, 1);
+    $digits:  nth($find-digits, 2);
+    $result: $result + $digits;
+  }
+
+  // In case of negative
+  @if $minus {
+    $result: $result * -1;
+  }
+
+  // In case of possible CSS unit
+  @if $pointer < str-length($value) {
+    $result: _sc-length($result, str-slice($value, $pointer));
+  }
+
+  @return $result;
+}
+
+/// Convert to null
+/// @param {*} $value - value to cast
+/// @return {Null}
+@function _sc-to-null($value) {
+  @return null;
+}
+
+@function to-color($value) {
+  @return _sc-to-color($value);
+}
+
+@function to-map($value) {
+  @return _sc-to-map($value);
+}
+
+@function to-bool($value) {
+  @return _sc-to-bool($value);
+}
+
+@function to-string($value) {
+  @return _sc-to-string($value);
+}
+
+@function to-list($value, $keep: 'both') {
+  @return _sc-to-list($value, $keep);
+}
+
+@function to-number($value) {
+  @return _sc-to-number($value);
+}
+
+@function to-null($value) {
+  @return _sc-to-null($value);
+}
