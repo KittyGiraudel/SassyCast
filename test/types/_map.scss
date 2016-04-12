@@ -1,121 +1,60 @@
-@include describe("The to-map function") {
-  @include it("should cast a string to a map") {
-    @include should(expect(to-map("")), to(equal((1: ""))));
-    @include should(expect(to-map("string")), to(equal((1: "string"))));
-    @include should(expect(to-map("this is a string")), to(equal((1: "this is a string"))));
-    @include should(expect(to-map("true")), to(equal((1: "true"))));
-    @include should(expect(to-map("false")), to(equal((1: "false"))));
-    @include should(expect(to-map("0")), to(equal((1: "0"))));
-    @include should(expect(to-map("-0")), to(equal((1: "-0"))));
-    @include should(expect(to-map("1")), to(equal((1: "1"))));
-    @include should(expect(to-map("42")), to(equal((1: "42"))));
-    @include should(expect(to-map("4.2")), to(equal((1: "4.2"))));
-    @include should(expect(to-map("-42")), to(equal((1: "-42"))));
-    @include should(expect(to-map("-4.2")), to(equal((1: "-4.2"))));
-    @include should(expect(to-map("42em")), to(equal((1: "42em"))));
-    @include should(expect(to-map("4.2em")), to(equal((1: "4.2em"))));
-    @include should(expect(to-map("-42em")), to(equal((1: "-42em"))));
-    @include should(expect(to-map("-4.2em")), to(equal((1: "-4.2em"))));
-    @include should(expect(to-map('#000')), to(equal((1: '#000'))));
-    @include should(expect(to-map('#000000')), to(equal((1: '#000000'))));
-    @include should(expect(to-map('black')), to(equal((1: 'black'))));
-    @include should(expect(to-map('rgb(0,0,0)')), to(equal((1: 'rgb(0,0,0)'))));
-    @include should(expect(to-map('rgba(0,0,0,.5)')), to(equal((1: 'rgba(0,0,0,.5)'))));
-    @include should(expect(to-map('hsl(0,0,0)')), to(equal((1: 'hsl(0,0,0)'))));
-    @include should(expect(to-map('hsla(0,0,0, .5)')), to(equal((1: 'hsla(0,0,0, .5)'))));
+@include test('to-map(..)') {
+  $tests: (
+    1: ('value': (1: 1), 'type': 'map'),
+    42: ('value': (1: 42), 'type': 'map'),
+    -42: ('value': (1: -42), 'type': 'map'),
+    -4.2: ('value': (1: -4.2), 'type': 'map'),
+    4.2: ('value': (1: 4.2), 'type': 'map'),
+    42em: ('value': (1: 42em), 'type': 'map'),
+    -42em: ('value': (1: -42em), 'type': 'map'),
+    -4.2em: ('value': (1: -4.2em), 'type': 'map'),
+    4.2em: ('value': (1: 4.2em), 'type': 'map'),
+    '': ('value': (1: ''), 'type': 'map'),
+    'string': ('value': (1: 'string'), 'type': 'map'),
+    'this is a string': ('value': (1: 'this is a string'), 'type': 'map'),
+    'true': ('value': (1: 'true'), 'type': 'map'),
+    'false': ('value': (1: 'false'), 'type': 'map'),
+    '0': ('value': (1: '0'), 'type': 'map'),
+    '-0': ('value': (1: '-0'), 'type': 'map'),
+    '1': ('value': (1: '1'), 'type': 'map'),
+    '42': ('value': (1: '42'), 'type': 'map'),
+    '4.2': ('value': (1: '4.2'), 'type': 'map'),
+    '-42': ('value': (1: '-42'), 'type': 'map'),
+    '-4.2': ('value': (1: '-4.2'), 'type': 'map'),
+    '42em': ('value': (1: '42em'), 'type': 'map'),
+    '4.2em': ('value': (1: '4.2em'), 'type': 'map'),
+    '-42em': ('value': (1: '-42em'), 'type': 'map'),
+    '-4.2em': ('value': (1: '-4.2em'), 'type': 'map'),
+    '#000': ('value': (1: '#000'), 'type': 'map'),
+    '#000000': ('value': (1: '#000000'), 'type': 'map'),
+    'black': ('value': (1: 'black'), 'type': 'map'),
+    'rgb(0,0,0)': ('value': (1: 'rgb(0,0,0)'), 'type': 'map'),
+    'rgba(0,0,0,.5)': ('value': (1: 'rgba(0,0,0,.5)'), 'type': 'map'),
+    'hsl(0,0,0)': ('value': (1: 'hsl(0,0,0)'), 'type': 'map'),
+    'hsla(0,0,0, .5)': ('value': (1: 'hsla(0,0,0, .5)'), 'type': 'map'),
+    #000: ('value': (1: #000), 'type': 'map'),
+    #ffffff: ('value': (1: #ffffff), 'type': 'map'),
+    red: ('value': (1: red), 'type': 'map'),
+    rgb(10, 20, 30): ('value': (1: rgb(10, 20, 30)), 'type': 'map'),
+    rgba(30, 20, 10, 0.5): ('value': (1: rgba(30, 20, 10, 0.5)), 'type': 'map'),
+    hsl(10, 20, 30): ('value': (1: hsl(10, 20, 30)), 'type': 'map'),
+    hsla(30, 20, 10, 0.5): ('value': (1: hsla(30, 20, 10, 0.5)), 'type': 'map'),
+    true: ('value': (1: true), 'type': 'map'),
+    false: ('value': (1: false), 'type': 'map'),
+    (this, is, a, list): ('value': (1: this, 2: is, 3: a, 4: list), 'type': 'map'),
+    (this is a list): ('value': (1: this, 2: is, 3: a, 4: list), 'type': 'map'),
+    ('a': 1, 'b': 2): ('value': ('a': 1, 'b': 2), 'type': 'map'),
+    null: ('value': (1: null), 'type': 'map'),
+  );
 
-    @include should(expect(type-of(to-map(""))), to(equal(map)));
-    @include should(expect(type-of(to-map("string"))), to(equal(map)));
-    @include should(expect(type-of(to-map("this is a string"))), to(equal('map')));
-    @include should(expect(type-of(to-map("true"))), to(equal('map')));
-    @include should(expect(type-of(to-map("false"))), to(equal('map')));
-    @include should(expect(type-of(to-map("42"))), to(equal('map')));
-    @include should(expect(type-of(to-map("0"))), to(equal('map')));
-    @include should(expect(type-of(to-map("-0"))), to(equal('map')));
-    @include should(expect(type-of(to-map("1"))), to(equal('map')));
-    @include should(expect(type-of(to-map("4.2"))), to(equal('map')));
-    @include should(expect(type-of(to-map("-42"))), to(equal('map')));
-    @include should(expect(type-of(to-map("-4.2"))), to(equal('map')));
-    @include should(expect(type-of(to-map("42em"))), to(equal('map')));
-    @include should(expect(type-of(to-map("4.2em"))), to(equal('map')));
-    @include should(expect(type-of(to-map("-42em"))), to(equal('map')));
-    @include should(expect(type-of(to-map("-4.2em"))), to(equal('map')));
-    @include should(expect(type-of(to-map('#000000'))), to(equal('map')));
-    @include should(expect(type-of(to-map('black'))), to(equal('map')));
-    @include should(expect(type-of(to-map('rgb(0,0,0)'))), to(equal('map')));
-    @include should(expect(type-of(to-map('rgba(0,0,0,.5)'))), to(equal('map')));
-    @include should(expect(type-of(to-map('hsl(0,0,0)'))), to(equal('map')));
-    @include should(expect(type-of(to-map('hsla(0,0,0, .5)'))), to(equal('map')));
-  }
+  @each $test, $expect in $tests {
+    $actual-value: to-map($test);
+    $actual-type: type-of($actual-value);
 
-  @include it("should cast a number to a map") {
-    @include should(expect(to-map(-0)), to(equal((1: 0))));
-    @include should(expect(to-map(0)), to(equal((1: 0))));
-    @include should(expect(to-map(1)), to(equal((1: 1))));
-    @include should(expect(to-map(42)), to(equal((1: 42))));
-    @include should(expect(to-map(-42)), to(equal((1: -42))));
-    @include should(expect(to-map(-4.2)), to(equal((1: -4.2))));
-    @include should(expect(to-map(4.2)), to(equal((1: 4.2))));
-    @include should(expect(to-map(42em)), to(equal((1: 42em))));
-    @include should(expect(to-map(-42em)), to(equal((1: -42em))));
-    @include should(expect(to-map(-4.2em)), to(equal((1: -4.2em))));
-    @include should(expect(to-map(4.2em)), to(equal((1: 4.2em))));
+    $expected-value: map-get($expect, 'value');
+    $expected-type: map-get($expect, 'type');
 
-    @include should(expect(type-of(to-map(0))), to(equal('map')));
-    @include should(expect(type-of(to-map(0))), to(equal('map')));
-    @include should(expect(type-of(to-map(1))), to(equal('map')));
-    @include should(expect(type-of(to-map(42))), to(equal('map')));
-    @include should(expect(type-of(to-map(-42))), to(equal('map')));
-    @include should(expect(type-of(to-map(-4.2))), to(equal('map')));
-    @include should(expect(type-of(to-map(4.2))), to(equal('map')));
-    @include should(expect(type-of(to-map(42em))), to(equal('map')));
-    @include should(expect(type-of(to-map(-42em))), to(equal('map')));
-    @include should(expect(type-of(to-map(-4.2em))), to(equal('map')));
-    @include should(expect(type-of(to-map(4.2em))), to(equal('map')));
-  }
-
-  @include it("should cast a color to a map") {
-    @include should(expect(to-map(#000)), to(equal((1: black))));
-    @include should(expect(to-map(#000000)), to(equal((1: black))));
-    @include should(expect(to-map(black)), to(equal((1: black))));
-    @include should(expect(to-map(rgb(0,0,0))), to(equal((1: black))));
-    @include should(expect(to-map(rgba(0,0,0,.5))), to(equal((1: rgba(0,0,0,0.5)))));
-    @include should(expect(to-map(hsl(0,0,0))), to(equal((1: black))));
-    @include should(expect(to-map(hsla(0,0,0, .5))), to(equal((1: rgba(0,0,0,.5)))));
-
-    @include should(expect(type-of(to-map(#000))), to(equal('map')));
-    @include should(expect(type-of(to-map(#000000))), to(equal('map')));
-    @include should(expect(type-of(to-map(black))), to(equal('map')));
-    @include should(expect(type-of(to-map(rgb(0,0,0)))), to(equal('map')));
-    @include should(expect(type-of(to-map(rgba(0,0,0,.5)))), to(equal('map')));
-    @include should(expect(type-of(to-map(hsl(0,0,0)))), to(equal('map')));
-    @include should(expect(type-of(to-map(hsla(0,0,0, .5)))), to(equal('map')));
-  }
-
-  @include it("should cast a bool to a map") {
-    @include should(expect(to-map(true)), to(equal((1: true))));
-    @include should(expect(to-map(false)), to(equal((1: false))));
-
-    @include should(expect(type-of(to-map(true))), to(equal(map)));
-    @include should(expect(type-of(to-map(false))), to(equal(map)));
-  }
-
-  @include it("should cast a map to a map") {
-    @include should(expect(to-map(("a": 1, "b": 2))), to(equal(("a": 1, "b": 2))));
-
-    @include should(expect(type-of(to-map(("a": 1, "b": 2)))), to(equal(map)));
-  }
-
-  @include it("should cast a list to a map") {
-    @include should(expect(to-map(())), to(equal(())));
-    @include should(expect(to-map(this is a list)), to(equal((1: this, 2: is, 3: a, 4: list))));
-    
-    @include should(expect(type-of(to-map(this is a list))), to(equal(map)));
-  }
-
-  @include it("should cast null to a map") {
-    @include should(expect(to-map(null)), to(equal((1: null))));
-    
-    @include should(expect(type-of(to-map(null))), to(equal(map)));
+    @include assert-equal($actual-value, $expected-value, 'Cast to map.');
+    @include assert-equal($actual-type, $expected-type, 'Cast to map.');
   }
 }

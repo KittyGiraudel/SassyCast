@@ -1,123 +1,60 @@
-@include describe("The to-number function") {
-  @include it("should cast a string to a number") {
-    @include should(expect(to-number("")), to(equal(0)));
-    @include should(expect(to-number("string")), to(equal(0)));
-    @include should(expect(to-number("this is a string")), to(equal(0)));
-    @include should(expect(to-number("true")), to(equal(0)));
-    @include should(expect(to-number("false")), to(equal(0)));
-    @include should(expect(to-number("0")), to(equal(0)));
-    @include should(expect(to-number("-0")), to(equal(0)));
-    @include should(expect(to-number("1")), to(equal(1)));
-    @include should(expect(to-number("42")), to(equal(42)));
-    @include should(expect(to-number("4.2")), to(equal(4.2)));
-    @include should(expect(to-number("-42")), to(equal(-42)));
-    @include should(expect(to-number("-4.2")), to(equal(-4.2)));
-    @include should(expect(to-number("42em")), to(equal(42em)));
-    @include should(expect(to-number("4.2em")), to(equal(4.2em)));
-    @include should(expect(to-number("-42em")), to(equal(-42em)));
-    @include should(expect(to-number("-4.2em")), to(equal(-4.2em)));
-    @include should(expect(to-number('#000')), to(equal(0)));
-    @include should(expect(to-number('#000000')), to(equal(0)));
-    @include should(expect(to-number('black')), to(equal(0)));
-    @include should(expect(to-number('rgb(0,0,0)')), to(equal(0)));
-    @include should(expect(to-number('rgba(0,0,0,.5)')), to(equal(0)));
-    @include should(expect(to-number('hsl(0,0,0)')), to(equal(0)));
-    @include should(expect(to-number('hsla(0,0,0, .5)')), to(equal(0)));
+@include test('to-number(..)') {
+  $tests: (
+    1: ('value': 1, 'type': 'number'),
+    42: ('value': 42, 'type': 'number'),
+    -42: ('value': -42, 'type': 'number'),
+    -4.2: ('value': -4.2, 'type': 'number'),
+    4.2: ('value': 4.2, 'type': 'number'),
+    42em: ('value': 42em, 'type': 'number'),
+    -42em: ('value': -42em, 'type': 'number'),
+    -4.2em: ('value': -4.2em, 'type': 'number'),
+    4.2em: ('value': 4.2em, 'type': 'number'),
+    '': ('value': 0, 'type': 'number'),
+    'string': ('value': 0, 'type': 'number'),
+    'this is a string': ('value': 0, 'type': 'number'),
+    'true': ('value': 0, 'type': 'number'),
+    'false': ('value': 0, 'type': 'number'),
+    '0': ('value': 0, 'type': 'number'),
+    '-0': ('value': -0, 'type': 'number'),
+    '1': ('value': 1, 'type': 'number'),
+    '42': ('value': 42, 'type': 'number'),
+    '4.2': ('value': 4.2, 'type': 'number'),
+    '-42': ('value': -42, 'type': 'number'),
+    '-4.2': ('value': -4.2, 'type': 'number'),
+    '42em': ('value': 42em, 'type': 'number'),
+    '4.2em': ('value': 4.2em, 'type': 'number'),
+    '-42em': ('value': -42em, 'type': 'number'),
+    '-4.2em': ('value': -4.2em, 'type': 'number'),
+    '#000': ('value': 0, 'type': 'number'),
+    '#000000': ('value': 0, 'type': 'number'),
+    'black': ('value': 0, 'type': 'number'),
+    'rgb(0,0,0)': ('value': 0, 'type': 'number'),
+    'rgba(0,0,0,.5)': ('value': 0, 'type': 'number'),
+    'hsl(0,0,0)': ('value': 0, 'type': 'number'),
+    'hsla(0,0,0, .5)': ('value': 0, 'type': 'number'),
+    #000: ('value': 0, 'type': 'number'),
+    #ffffff: ('value': 0, 'type': 'number'),
+    red: ('value': 0, 'type': 'number'),
+    rgb(10, 20, 30): ('value': 0, 'type': 'number'),
+    rgba(30, 20, 10, 0.5): ('value': 0, 'type': 'number'),
+    hsl(10, 20, 30): ('value': 0, 'type': 'number'),
+    hsla(30, 20, 10, 0.5): ('value': 0, 'type': 'number'),
+    true: ('value': 1, 'type': 'number'),
+    false: ('value': 0, 'type': 'number'),
+    (this, is, a, list): ('value': 0, 'type': 'number'),
+    (this is a list): ('value': 0, 'type': 'number'),
+    ('a': 1, 'b': 2): ('value': 0, 'type': 'number'),
+    null: ('value': 0, 'type': 'number'),
+  );
 
-    @include should(expect(type-of(to-number(""))), to(equal('number')));
-    @include should(expect(type-of(to-number("string"))), to(equal('number')));
-    @include should(expect(type-of(to-number("this is a string"))), to(equal('number')));
-    @include should(expect(type-of(to-number("true"))), to(equal('number')));
-    @include should(expect(type-of(to-number("false"))), to(equal('number')));
-    @include should(expect(type-of(to-number("42"))), to(equal('number')));
-    @include should(expect(type-of(to-number("0"))), to(equal('number')));
-    @include should(expect(type-of(to-number("-0"))), to(equal('number')));
-    @include should(expect(type-of(to-number("1"))), to(equal('number')));
-    @include should(expect(type-of(to-number("4.2"))), to(equal('number')));
-    @include should(expect(type-of(to-number("-42"))), to(equal('number')));
-    @include should(expect(type-of(to-number("-4.2"))), to(equal('number')));
-    @include should(expect(type-of(to-number("42em"))), to(equal('number')));
-    @include should(expect(type-of(to-number("4.2em"))), to(equal('number')));
-    @include should(expect(type-of(to-number("-42em"))), to(equal('number')));
-    @include should(expect(type-of(to-number("-4.2em"))), to(equal('number')));
-    @include should(expect(type-of(to-number('#000'))), to(equal('number')));
-    @include should(expect(type-of(to-number('#000000'))), to(equal('number')));
-    @include should(expect(type-of(to-number('black'))), to(equal('number')));
-    @include should(expect(type-of(to-number('rgb(0,0,0)'))), to(equal('number')));
-    @include should(expect(type-of(to-number('rgba(0,0,0,.5)'))), to(equal('number')));
-    @include should(expect(type-of(to-number('hsl(0,0,0)'))), to(equal('number')));
-    @include should(expect(type-of(to-number('hsla(0,0,0, .5)'))), to(equal('number')));
-  }
+  @each $test, $expect in $tests {
+    $actual-value: to-number($test);
+    $actual-type: type-of($actual-value);
 
-  @include it("should cast a number to a number") {
-    @include should(expect(to-number(-0)), to(equal(0)));
-    @include should(expect(to-number(0)), to(equal(0)));
-    @include should(expect(to-number(1)), to(equal(1)));
-    @include should(expect(to-number(42)), to(equal(42)));
-    @include should(expect(to-number(-42)), to(equal(-42)));
-    @include should(expect(to-number(-4.2)), to(equal(-4.2)));
-    @include should(expect(to-number(4.2)), to(equal(4.2)));
-    @include should(expect(to-number(42em)), to(equal(42em)));
-    @include should(expect(to-number(-42em)), to(equal(-42em)));
-    @include should(expect(to-number(-4.2em)), to(equal(-4.2em)));
-    @include should(expect(to-number(4.2em)), to(equal(4.2em)));
+    $expected-value: map-get($expect, 'value');
+    $expected-type: map-get($expect, 'type');
 
-    @include should(expect(type-of(to-number(0))), to(equal('number')));
-    @include should(expect(type-of(to-number(0))), to(equal('number')));
-    @include should(expect(type-of(to-number(1))), to(equal('number')));
-    @include should(expect(type-of(to-number(42))), to(equal('number')));
-    @include should(expect(type-of(to-number(-42))), to(equal('number')));
-    @include should(expect(type-of(to-number(-4.2))), to(equal('number')));
-    @include should(expect(type-of(to-number(4.2))), to(equal('number')));
-    @include should(expect(type-of(to-number(42em))), to(equal('number')));
-    @include should(expect(type-of(to-number(-42em))), to(equal('number')));
-    @include should(expect(type-of(to-number(-4.2em))), to(equal('number')));
-    @include should(expect(type-of(to-number(4.2em))), to(equal('number')));
-  }
-
-  @include it("should cast a color to a number") {
-    @include should(expect(to-number(#000)), to(equal(0)));
-    @include should(expect(to-number(#000000)), to(equal(0)));
-    @include should(expect(to-number(black)), to(equal(0)));
-    @include should(expect(to-number(rgb(0,0,0))), to(equal(0)));
-    @include should(expect(to-number(rgba(0,0,0,.5))), to(equal(0)));
-    @include should(expect(to-number(hsl(0,0,0))), to(equal(0)));
-    @include should(expect(to-number(hsla(0,0,0, .5))), to(equal(0)));
-
-    @include should(expect(type-of(to-number(#000))), to(equal('number')));
-    @include should(expect(type-of(to-number(#000000))), to(equal('number')));
-    @include should(expect(type-of(to-number(black))), to(equal('number')));
-    @include should(expect(type-of(to-number(rgb(0,0,0)))), to(equal('number')));
-    @include should(expect(type-of(to-number(rgba(0,0,0,.5)))), to(equal('number')));
-    @include should(expect(type-of(to-number(hsl(0,0,0)))), to(equal('number')));
-    @include should(expect(type-of(to-number(hsla(0,0,0, .5)))), to(equal('number')));
-  }
-
-  @include it("should cast a list to a number") {
-    @include should(expect(to-number(())), to(equal(0)));
-    @include should(expect(to-number(this is a list)), to(equal(0)));
-
-    @include should(expect(type-of(to-number(()))), to(equal('number')));
-    @include should(expect(type-of(to-number(this is a list))), to(equal('number')));
-  }
-
-  @include it("should cast a map to a number") {
-    @include should(expect(to-number(("a": 1, "b": 2))), to(equal(0)));
-    
-    @include should(expect(type-of(to-number(("a": 1, "b": 2)))), to(equal('number')));
-  }
-
-  @include it("should cast a bool to a number") {
-    @include should(expect(to-number(true)), to(equal(1)));
-    @include should(expect(to-number(false)), to(equal(0)));
-
-    @include should(expect(type-of(to-number(true))), to(equal('number')));
-    @include should(expect(type-of(to-number(false))), to(equal('number')));
-  }
-
-  @include it("should cast null to a number") {
-    @include should(expect(to-number(null)), to(equal(0)));
-    
-    @include should(expect(type-of(to-number(null))), to(equal('number')));
+    @include assert-equal($actual-value, $expected-value, 'Cast to number if possible, or return 0.');
+    @include assert-equal($actual-type, $expected-type, 'Cast to number if possible, or return 0.');
   }
 }

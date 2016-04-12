@@ -12,32 +12,39 @@
 
   @for $i from $start through $length {
     $token: str-slice($string-lower, $i, $i);
-    @if $token == ' ' {
+    @if ($token == ' ') {
       // @continue;
-    }
-    @else if $token == '(' or $token == ',' {
+    } @else if ($token == '(' or $token == ',') {
       $frags: append($frags, "");
-    }
-    @else if $token == ')' {
-      @if length($frags) != if($is-alpha, 4, 3) { @return $string; } // Parsing error
-      $hue: _get-color-value(nth($frags, 1));
-      $saturation: _get-color-value(nth($frags, 2));
-      $lightness: _get-color-value(nth($frags, 3));
+    } @else if ($token == ')') {
+      @if (length($frags) != if($is-alpha, 4, 3)) {
+        @return $string; // Parsing error
+      }
 
-      @if not $hue or not $saturation or not $lightness {
+      $hue: _sc-get-color-value(nth($frags, 1));
+      $saturation: _sc-get-color-value(nth($frags, 2));
+      $lightness: _sc-get-color-value(nth($frags, 3));
+
+      @if (not $hue or not $saturation or not $lightness) {
         @return $string;
       }
 
       @if $is-alpha {
-        @if length($frags) != 4 { @return $string; } // No alpha channel found
-        $alpha: _get-color-value(nth($frags, 4));
-        @if not $alpha { @return $string; } // Error parsing alpha channel
+        @if (length($frags) != 4) {
+          @return $string; // No alpha channel found
+        }
+
+        $alpha: _sc-get-color-value(nth($frags, 4));
+
+        @if not $alpha {
+          @return $string; // Error parsing alpha channel
+        }
+
         @return hsla($hue, $saturation, $lightness, $alpha);
       }
 
       @return hsl($hue, $saturation, $lightness);
-    }
-    @else {
+    } @else {
       $frags: set-nth($frags, length($frags), nth($frags, length($frags)) + $token);
     }
   }

@@ -1,28 +1,26 @@
 /// Convert to list
 /// @param {*} $value - value to cast
-/// @param {String} $keep ("both") - whether to keep `keys`, `values` or `both` when casting a map
+/// @param {String} $keep ('both') - whether to keep `keys`, `values` or `both` when casting a map
 /// @return {List}
-@function _sc-to-list($value, $keep: "both") {
-  $keep: if(index("keys" "values" "both", $keep), $keep, "both");
+@function _sc-to-list($value, $keep: 'both') {
+  $type: type-of($value);
 
-  @if type-of($value) == "map" {
-    $keys: ();
-    $values: ();
-    @each $key, $val in $value {
-      $keys: append($keys, $key);
-      $values: append($values, $val);
-    }
+  @if ($type == 'list') {
+    @return $value;
+  }
 
-    @if $keep == "keys" {
-      @return $keys;
-    }
-    @else if $keep == "values" {
+  @if ($type == 'map') {
+    $keys: map-keys($value);
+    $values: map-values($value);
+
+    @if ($keep == 'values') {
       @return $values;
-    }
-    @else {
+    } @else if ($keep == 'keys') {
+      @return $keys;
+    } @else {
       @return zip($keys, $values);
     }
   }
 
-  @return if(type-of($value) != list, ($value,), $value);
+  @return ($value,);
 }

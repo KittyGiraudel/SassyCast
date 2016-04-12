@@ -1,123 +1,60 @@
-@include describe("The to-string function") {
-  @include it("should cast a number to a string") {
-    @include should(expect(to-string(-0)), to(equal('0')));
-    @include should(expect(to-string(0)), to(equal('0')));
-    @include should(expect(to-string(1)), to(equal('1')));
-    @include should(expect(to-string(42)), to(equal('42')));
-    @include should(expect(to-string(-42)), to(equal('-42')));
-    @include should(expect(to-string(-4.2)), to(equal('-4.2')));
-    @include should(expect(to-string(4.2)), to(equal('4.2')));
-    @include should(expect(to-string(42em)), to(equal('42em')));
-    @include should(expect(to-string(-42em)), to(equal('-42em')));
-    @include should(expect(to-string(-4.2em)), to(equal('-4.2em')));
-    @include should(expect(to-string(4.2em)), to(equal('4.2em')));
+@include test('to-string(..)') {
+  $tests: (
+    1: ('value': '1', 'type': 'string'),
+    42: ('value': '42', 'type': 'string'),
+    -42: ('value': '-42', 'type': 'string'),
+    -4.2: ('value': '-4.2', 'type': 'string'),
+    4.2: ('value': '4.2', 'type': 'string'),
+    42em: ('value': '42em', 'type': 'string'),
+    -42em: ('value': '-42em', 'type': 'string'),
+    -4.2em: ('value': '-4.2em', 'type': 'string'),
+    4.2em: ('value': '4.2em', 'type': 'string'),
+    '': ('value': '', 'type': 'string'),
+    'string': ('value': 'string', 'type': 'string'),
+    'this is a string': ('value': 'this is a string', 'type': 'string'),
+    'true': ('value': 'true', 'type': 'string'),
+    'false': ('value': 'false', 'type': 'string'),
+    '0': ('value': '0', 'type': 'string'),
+    '-0': ('value': '-0', 'type': 'string'),
+    '1': ('value': '1', 'type': 'string'),
+    '42': ('value': '42', 'type': 'string'),
+    '4.2': ('value': '4.2', 'type': 'string'),
+    '-42': ('value': '-42', 'type': 'string'),
+    '-4.2': ('value': '-4.2', 'type': 'string'),
+    '42em': ('value': '42em', 'type': 'string'),
+    '4.2em': ('value': '4.2em', 'type': 'string'),
+    '-42em': ('value': '-42em', 'type': 'string'),
+    '-4.2em': ('value': '-4.2em', 'type': 'string'),
+    '#000': ('value': '#000', 'type': 'string'),
+    '#000000': ('value': '#000000', 'type': 'string'),
+    'black': ('value': 'black', 'type': 'string'),
+    'rgb(0,0,0)': ('value': 'rgb(0,0,0)', 'type': 'string'),
+    'rgba(0,0,0,.5)': ('value': 'rgba(0,0,0,.5)', 'type': 'string'),
+    'hsl(0,0,0)': ('value': 'hsl(0,0,0)', 'type': 'string'),
+    'hsla(0,0,0, .5)': ('value': 'hsla(0,0,0, .5)', 'type': 'string'),
+    #000: ('value': '#000', 'type': 'string'),
+    #ffffff: ('value': '#ffffff', 'type': 'string'),
+    red: ('value': 'red', 'type': 'string'),
+    rgb(10, 20, 30): ('value': '#0a141e', 'type': 'string'),
+    rgba(30, 20, 10, 0.5): ('value': 'rgba(30, 20, 10, 0.5)', 'type': 'string'),
+    hsl(10, 20, 30): ('value': '#5c423d', 'type': 'string'),
+    hsla(30, 20, 10, 0.5): ('value': 'rgba(31, 26, 20, 0.5)', 'type': 'string'),
+    true: ('value': 'true', 'type': 'string'),
+    false: ('value': 'false', 'type': 'string'),
+    (this, is, a, list): ('value': 'this, is, a, list', 'type': 'string'),
+    (this is a list): ('value': 'this is a list', 'type': 'string'),
+    ('a': 1, 'b': 2): ('value': '("a": 1, "b": 2)', 'type': 'string'),
+    null: ('value': 'null', 'type': 'string'),
+  );
 
-    @include should(expect(type-of(to-string(0))), to(equal('string')));
-    @include should(expect(type-of(to-string(0))), to(equal('string')));
-    @include should(expect(type-of(to-string(1))), to(equal('string')));
-    @include should(expect(type-of(to-string(42))), to(equal('string')));
-    @include should(expect(type-of(to-string(-42))), to(equal('string')));
-    @include should(expect(type-of(to-string(-4.2))), to(equal('string')));
-    @include should(expect(type-of(to-string(4.2))), to(equal('string')));
-    @include should(expect(type-of(to-string(42em))), to(equal('string')));
-    @include should(expect(type-of(to-string(-42em))), to(equal('string')));
-    @include should(expect(type-of(to-string(-4.2em))), to(equal('string')));
-    @include should(expect(type-of(to-string(4.2em))), to(equal('string')));
-  }
+  @each $test, $expect in $tests {
+    $actual-value: to-string($test);
+    $actual-type: type-of($actual-value);
 
-  @include it("should cast a string to a string") {
-    @include should(expect(to-string("")), to(equal("")));
-    @include should(expect(to-string("string")), to(equal("string")));
-    @include should(expect(to-string("this is a string")), to(equal("this is a string")));
-    @include should(expect(to-string("true")), to(equal("true")));
-    @include should(expect(to-string("false")), to(equal("false")));
-    @include should(expect(to-string("0")), to(equal("0")));
-    @include should(expect(to-string("-0")), to(equal("-0")));
-    @include should(expect(to-string("1")), to(equal("1")));
-    @include should(expect(to-string("42")), to(equal("42")));
-    @include should(expect(to-string("4.2")), to(equal("4.2")));
-    @include should(expect(to-string("-42")), to(equal("-42")));
-    @include should(expect(to-string("-4.2")), to(equal("-4.2")));
-    @include should(expect(to-string("42em")), to(equal("42em")));
-    @include should(expect(to-string("4.2em")), to(equal("4.2em")));
-    @include should(expect(to-string("-42em")), to(equal("-42em")));
-    @include should(expect(to-string("-4.2em")), to(equal("-4.2em")));
-    @include should(expect(to-string('#000')), to(equal('#000')));
-    @include should(expect(to-string('#000000')), to(equal('#000000')));
-    @include should(expect(to-string('black')), to(equal('black')));
-    @include should(expect(to-string('rgb(0,0,0)')), to(equal('rgb(0,0,0)')));
-    @include should(expect(to-string('rgba(0,0,0,.5)')), to(equal('rgba(0,0,0,.5)')));
-    @include should(expect(to-string('hsl(0,0,0)')), to(equal('hsl(0,0,0)')));
-    @include should(expect(to-string('hsla(0,0,0, .5)')), to(equal('hsla(0,0,0, .5)')));
+    $expected-value: map-get($expect, 'value');
+    $expected-type: map-get($expect, 'type');
 
-    @include should(expect(type-of(to-string(""))), to(equal('string')));
-    @include should(expect(type-of(to-string("string"))), to(equal('string')));
-    @include should(expect(type-of(to-string("this is a string"))), to(equal('string')));
-    @include should(expect(type-of(to-string("true"))), to(equal('string')));
-    @include should(expect(type-of(to-string("false"))), to(equal('string')));
-    @include should(expect(type-of(to-string("42"))), to(equal('string')));
-    @include should(expect(type-of(to-string("0"))), to(equal('string')));
-    @include should(expect(type-of(to-string("-0"))), to(equal('string')));
-    @include should(expect(type-of(to-string("1"))), to(equal('string')));
-    @include should(expect(type-of(to-string("4.2"))), to(equal('string')));
-    @include should(expect(type-of(to-string("-42"))), to(equal('string')));
-    @include should(expect(type-of(to-string("-4.2"))), to(equal('string')));
-    @include should(expect(type-of(to-string("42em"))), to(equal('string')));
-    @include should(expect(type-of(to-string("4.2em"))), to(equal('string')));
-    @include should(expect(type-of(to-string("-42em"))), to(equal('string')));
-    @include should(expect(type-of(to-string("-4.2em"))), to(equal('string')));
-    @include should(expect(type-of(to-string('#000'))), to(equal('string')));
-    @include should(expect(type-of(to-string('#000000'))), to(equal('string')));
-    @include should(expect(type-of(to-string('black'))), to(equal('string')));
-    @include should(expect(type-of(to-string('rgb(0,0,0)'))), to(equal('string')));
-    @include should(expect(type-of(to-string('rgba(0,0,0,.5)'))), to(equal('string')));
-    @include should(expect(type-of(to-string('hsl(0,0,0)'))), to(equal('string')));
-    @include should(expect(type-of(to-string('hsla(0,0,0, .5)'))), to(equal('string')));
-  }
-
-  @include it("should cast a color to a string") {
-    @include should(expect(to-string(#000)), to(equal('#000')));
-    @include should(expect(to-string(#000000)), to(equal('#000000')));
-    @include should(expect(to-string(black)), to(equal('black')));
-    @include should(expect(to-string(rgb(0,0,0))), to(equal('black')));
-    @include should(expect(to-string(rgba(0,0,0,.5))), to(equal('rgba(0, 0, 0, 0.5)')));
-    @include should(expect(to-string(hsl(0,0,0))), to(equal('black')));
-    @include should(expect(to-string(hsla(0,0,0, .5))), to(equal('rgba(0, 0, 0, 0.5)')));
-
-    @include should(expect(type-of(to-string(#000))), to(equal('string')));
-    @include should(expect(type-of(to-string(#000000))), to(equal('string')));
-    @include should(expect(type-of(to-string(black))), to(equal('string')));
-    @include should(expect(type-of(to-string(rgb(0,0,0)))), to(equal('string')));
-    @include should(expect(type-of(to-string(rgba(0,0,0,.5)))), to(equal('string')));
-    @include should(expect(type-of(to-string(hsl(0,0,0)))), to(equal('string')));
-    @include should(expect(type-of(to-string(hsla(0,0,0, .5)))), to(equal('string')));
-  }
-
-  @include it("should cast a list to a string") {
-    @include should(expect(type-of(to-string(()))), to(equal('string')));
-    @include should(expect(type-of(to-string(this is a list))), to(equal('string')));
-
-    @include should(expect(to-string(())), to(equal("()")));
-    @include should(expect(to-string(this is a list)), to(equal('this is a list')));
-  }
-
-  @include it("should cast a bool to a string") {
-    @include should(expect(to-string(true)), to(equal("true")));
-    @include should(expect(to-string(false)), to(equal("false")));
-
-    @include should(expect(type-of(to-string(true))), to(equal('string')));
-    @include should(expect(type-of(to-string(false))), to(equal('string')));
-  }
-
-  @include it("should cast null to a string") {
-    @include should(expect(to-string(null)), to(equal("null")));
-
-    @include should(expect(type-of(to-string(null))), to(equal('string')));
-  }
-
-  @include it("should cast a map to a string") {
-    @include should(expect(type-of(to-string(("a": 1, "b": 2)))), to(equal('string')));
-
-    @include should(expect(to-string(("a": 1, "b": 2))), to(equal('("a": 1, "b": 2)')));
+    @include assert-equal($actual-value, $expected-value, 'Cast to string.');
+    @include assert-equal($actual-type, $expected-type, 'Cast to string.');
   }
 }

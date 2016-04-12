@@ -2,17 +2,27 @@
 /// @param {*} $value - value to cast
 /// @return {Map}
 @function _sc-to-map($value) {
-  @if type-of($value) == "list" {
-    $map: ();
+  $type: type-of($value);
 
-    @if length($value) > 1 {
-      @for $i from 1 through length($value) {
-        $map: map-merge($map, ($i: nth($value, $i)));
-      }
-    }
-
-    @return $map;
+  @if ($type == 'map') {
+    @return $value;
   }
 
-  @return if(type-of($value) != map, (1: $value), $value);
+  @if ($type == 'list') {
+    $length: length($value);
+
+    @if ($length == 0) {
+      @return ();
+    } @else {
+      $map: ();
+
+      @for $i from 1 through $length {
+        $map: map-merge($map, ($i: nth($value, $i)));
+      }
+
+      @return $map;
+    }
+  }
+
+  @return (1: $value);
 }

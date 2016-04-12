@@ -2,7 +2,7 @@
 /// @param {*} $value - value to cast
 /// @return {Bool}
 @function _sc-to-bool($value) {
-  @if not $value or $value == "" or $value == 0 {
+  @if (not $value or $value == '' or $value == 0) {
     @return false;
   }
 

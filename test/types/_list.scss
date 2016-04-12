@@ -1,80 +1,60 @@
-@include describe("The to-list function") {
-  @include it("should cast a string to a list") {
-    @include should(expect(type-of(to-list(""))), to(equal('list')));
-    @include should(expect(type-of(to-list("string"))), to(equal('list')));
-    @include should(expect(type-of(to-list("this is a string"))), to(equal('list')));
-    @include should(expect(type-of(to-list("true"))), to(equal('list')));
-    @include should(expect(type-of(to-list("false"))), to(equal('list')));
-    @include should(expect(type-of(to-list("42"))), to(equal('list')));
-    @include should(expect(type-of(to-list("0"))), to(equal('list')));
-    @include should(expect(type-of(to-list("-0"))), to(equal('list')));
-    @include should(expect(type-of(to-list("1"))), to(equal('list')));
-    @include should(expect(type-of(to-list("4.2"))), to(equal('list')));
-    @include should(expect(type-of(to-list("-42"))), to(equal('list')));
-    @include should(expect(type-of(to-list("-4.2"))), to(equal('list')));
-    @include should(expect(type-of(to-list("42em"))), to(equal('list')));
-    @include should(expect(type-of(to-list("4.2em"))), to(equal('list')));
-    @include should(expect(type-of(to-list("-42em"))), to(equal('list')));
-    @include should(expect(type-of(to-list("-4.2em"))), to(equal('list')));
-    @include should(expect(type-of(to-list('#000'))), to(equal('list')));
-    @include should(expect(type-of(to-list('#000000'))), to(equal('list')));
-    @include should(expect(type-of(to-list('black'))), to(equal('list')));
-    @include should(expect(type-of(to-list('rgb(0,0,0)'))), to(equal('list')));
-    @include should(expect(type-of(to-list('rgba(0,0,0,.5)'))), to(equal('list')));
-    @include should(expect(type-of(to-list('hsl(0,0,0)'))), to(equal('list')));
-    @include should(expect(type-of(to-list('hsla(0,0,0, .5)'))), to(equal('list')));
-  }
+@include test('to-list(..)') {
+  $tests: (
+    1: ('value': (1,), 'type': 'list'),
+    42: ('value': (42,), 'type': 'list'),
+    -42: ('value': (-42,), 'type': 'list'),
+    -4.2: ('value': (-4.2,), 'type': 'list'),
+    4.2: ('value': (4.2,), 'type': 'list'),
+    42em: ('value': (42em,), 'type': 'list'),
+    -42em: ('value': (-42em,), 'type': 'list'),
+    -4.2em: ('value': (-4.2em,), 'type': 'list'),
+    4.2em: ('value': (4.2em,), 'type': 'list'),
+    '': ('value': ('',), 'type': 'list'),
+    'string': ('value': ('string',), 'type': 'list'),
+    'this is a string': ('value': ('this is a string',), 'type': 'list'),
+    'true': ('value': ('true',), 'type': 'list'),
+    'false': ('value': ('false',), 'type': 'list'),
+    '0': ('value': ('0',), 'type': 'list'),
+    '-0': ('value': ('-0',), 'type': 'list'),
+    '1': ('value': ('1',), 'type': 'list'),
+    '42': ('value': ('42',), 'type': 'list'),
+    '4.2': ('value': ('4.2',), 'type': 'list'),
+    '-42': ('value': ('-42',), 'type': 'list'),
+    '-4.2': ('value': ('-4.2',), 'type': 'list'),
+    '42em': ('value': ('42em',), 'type': 'list'),
+    '4.2em': ('value': ('4.2em',), 'type': 'list'),
+    '-42em': ('value': ('-42em',), 'type': 'list'),
+    '-4.2em': ('value': ('-4.2em',), 'type': 'list'),
+    '#000': ('value': ('#000',), 'type': 'list'),
+    '#000000': ('value': ('#000000',), 'type': 'list'),
+    'black': ('value': ('black',), 'type': 'list'),
+    'rgb(0,0,0)': ('value': ('rgb(0,0,0)',), 'type': 'list'),
+    'rgba(0,0,0,.5)': ('value': ('rgba(0,0,0,.5)',), 'type': 'list'),
+    'hsl(0,0,0)': ('value': ('hsl(0,0,0)',), 'type': 'list'),
+    'hsla(0,0,0, .5)': ('value': ('hsla(0,0,0, .5)',), 'type': 'list'),
+    #000: ('value': (#000,), 'type': 'list'),
+    #ffffff: ('value': (#ffffff,), 'type': 'list'),
+    red: ('value': (red,), 'type': 'list'),
+    rgb(10, 20, 30): ('value': (rgb(10, 20, 30),), 'type': 'list'),
+    rgba(30, 20, 10, 0.5): ('value': (rgba(30, 20, 10, 0.5),), 'type': 'list'),
+    hsl(10, 20, 30): ('value': (hsl(10, 20, 30),), 'type': 'list'),
+    hsla(30, 20, 10, 0.5): ('value': (hsla(30, 20, 10, 0.5),), 'type': 'list'),
+    true: ('value': (true,), 'type': 'list'),
+    false: ('value': (false,), 'type': 'list'),
+    (this, is, a, list): ('value': (this, is, a, list), 'type': 'list'),
+    (this is a list): ('value': (this is a list), 'type': 'list'),
+    ('a': 1, 'b': 2): ('value': ('a' 1, 'b' 2), 'type': 'list'),
+    null: ('value': (null,), 'type': 'list'),
+  );
 
-  @include it("should cast a number to a list") {
-    @include should(expect(type-of(to-list(-0))), to(equal('list')));
-    @include should(expect(type-of(to-list(0))), to(equal('list')));
-    @include should(expect(type-of(to-list(1))), to(equal('list')));
-    @include should(expect(type-of(to-list(42))), to(equal('list')));
-    @include should(expect(type-of(to-list(-42))), to(equal('list')));
-    @include should(expect(type-of(to-list(-4.2))), to(equal('list')));
-    @include should(expect(type-of(to-list(4.2))), to(equal('list')));
-    @include should(expect(type-of(to-list(42em))), to(equal('list')));
-    @include should(expect(type-of(to-list(-42em))), to(equal('list')));
-    @include should(expect(type-of(to-list(-4.2em))), to(equal('list')));
-    @include should(expect(type-of(to-list(4.2em))), to(equal('list')));
-  }
+  @each $test, $expect in $tests {
+    $actual-value: to-list($test);
+    $actual-type: type-of($actual-value);
 
-  @include it("should cast a color to a list") {
-    @include should(expect(type-of(to-list(#000))), to(equal('list')));
-    @include should(expect(type-of(to-list(#000000))), to(equal('list')));
-    @include should(expect(type-of(to-list(black))), to(equal('list')));
-    @include should(expect(type-of(to-list(rgb(0,0,0)))), to(equal('list')));
-    @include should(expect(type-of(to-list(rgba(0,0,0,.5)))), to(equal('list')));
-    @include should(expect(type-of(to-list(hsl(0,0,0)))), to(equal('list')));
-    @include should(expect(type-of(to-list(hsla(0,0,0, .5)))), to(equal('list')));
-  }
+    $expected-value: map-get($expect, 'value');
+    $expected-type: map-get($expect, 'type');
 
-  @include it("should cast a bool to a list") {
-    @include should(expect(type-of(to-list(true))), to(equal(list)));
-    @include should(expect(type-of(to-list(false))), to(equal(list)));
-  }
-
-  @include it("should cast a map to a list") {
-    @include should(expect(to-list(("a": 1, "b": 2))), to(equal(("a" 1, "b" 2))));
-    @include should(expect(to-list(("a": 1, "b": 2), 'both')), to(equal(("a" 1, "b" 2))));
-    @include should(expect(to-list(("a": 1, "b": 2), 'keys')), to(equal("a" "b")));
-    @include should(expect(to-list(("a": 1, "b": 2), 'values')), to(equal(1 2)));
-
-    @include should(expect(type-of(to-list(("a": 1, "b": 2)))), to(equal(list)));
-    @include should(expect(type-of(to-list(("a": 1, "b": 2), 'both'))), to(equal(list)));
-    @include should(expect(type-of(to-list(("a": 1, "b": 2), 'keys'))), to(equal(list)));
-    @include should(expect(type-of(to-list(("a": 1, "b": 2), 'values'))), to(equal(list)));
-  }
-
-  @include it("should cast a list to a list") {
-    @include should(expect(to-list(())), to(equal(())));
-    @include should(expect(to-list(this is a list)), to(equal(this is a list)));
-
-    @include should(expect(type-of(to-list(()))), to(equal(list)));
-    @include should(expect(type-of(to-list(this is a list))), to(equal(list)));
-  }
-
-  @include it("should cast null to a list") {
-    @include should(expect(type-of(to-list(null))), to(equal(list)));
+    @include assert-equal($actual-value, $expected-value, 'Cast to list.');
+    @include assert-equal($actual-type, $expected-type, 'Cast to list.');
   }
 }

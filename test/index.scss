@@ -1,0 +1,12 @@
+@import 'true';
+@import '../dist/SassyCast';
+
+@include test-module('SassyCast') {
+  @import 'types/bool';
+  @import 'types/color';
+  @import 'types/list';
+  @import 'types/map';
+  @import 'types/null';
+  @import 'types/number';
+  @import 'types/string';
+}

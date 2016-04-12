@@ -2,14 +2,18 @@
 /// @access private
 /// @param {String} $string - hexadecimal value
 /// @return {Number} - decimal number
-@function _sc-hex-to-dec($string){
-  $hex: "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" "a" "b" "c" "d" "e" "f";
+@function _sc-hex-to-dec($string) {
   $string: to-lower-case($string);
   $length: str-length($string);
+  $hex: (
+    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+    'a', 'b', 'c', 'd', 'e', 'f'
+  );
 
   $dec: 0;
+
   @for $i from 1 through $length {
-    $factor: 1 + ( 15 * ( $length - $i ));
+    $factor: 1 + (15 * ($length - $i));
     $index: index($hex, str-slice($string, $i, $i));
     $dec: $dec + $factor * ($index - 1);
   }

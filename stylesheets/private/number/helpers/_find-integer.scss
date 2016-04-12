@@ -6,26 +6,23 @@
 @function _sc-find-integer($source, $pointer) {
   $source: to-lower-case($source);
   $length: str-length($source);
-  $numbers: "0" "1" "2" "3" "4" "5" "6" "7" "8" "9";
+  $numbers: ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
   $result: 0;
 
-  @while $pointer <= $length {
+  @while ($pointer <= $length) {
     $token: str-slice($source, $pointer, $pointer);
     $index: index($numbers, $token);
 
-    @if $token == "-" {
+    @if ($token == '-') {
       // @continue;
-    }
-    @else if $index {
-      $result: $result * 10 + ($index - 1);
-    }
-    @else {
+    } @else if $index {
+      $result: ($result * 10) + ($index - 1);
+    } @else {
       @return $pointer, $result;
     }
 
-    $pointer: $pointer + 1;
+    $pointer: ($pointer + 1);
   }
 
   @return $pointer, $result;
 }
-

@@ -7,11 +7,15 @@
   $first: str-slice($string, 1, 1);
 
   // Pad <1 values with a leading 0
-  @if $first == '.' {
+  @if ($first == '.') {
     $string: '0' + $string;
   }
 
   $last: str-slice($string, -1, -1);
 
-  @return if($last == '%', to-number(str-slice($string, 1, -2), 2) * 1%, to-number($string));
+  @if ($last == '%') {
+    @return _sc-to-number(str-slice($string, 1, -2), 2) * 1%;
+  }
+
+  @return _sc-to-number($string);
 }

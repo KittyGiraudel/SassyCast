@@ -1,116 +1,60 @@
-@include describe("The to-null function") {
-  @include it("should return null in all cases") {
-    @include should(expect(to-null(-0)), to(equal(null)));
-    @include should(expect(to-null(0)), to(equal(null)));
-    @include should(expect(to-null(1)), to(equal(null)));
-    @include should(expect(to-null(42)), to(equal(null)));
-    @include should(expect(to-null(-42)), to(equal(null)));
-    @include should(expect(to-null(-4.2)), to(equal(null)));
-    @include should(expect(to-null(4.2)), to(equal(null)));
-    @include should(expect(to-null(42em)), to(equal(null)));
-    @include should(expect(to-null(-42em)), to(equal(null)));
-    @include should(expect(to-null(-4.2em)), to(equal(null)));
-    @include should(expect(to-null(4.2em)), to(equal(null)));
+@include test('to-null(..)') {
+  $tests: (
+    1: ('value': null, 'type': 'null'),
+    42: ('value': null, 'type': 'null'),
+    -42: ('value': null, 'type': 'null'),
+    -4.2: ('value': null, 'type': 'null'),
+    4.2: ('value': null, 'type': 'null'),
+    42em: ('value': null, 'type': 'null'),
+    -42em: ('value': null, 'type': 'null'),
+    -4.2em: ('value': null, 'type': 'null'),
+    4.2em: ('value': null, 'type': 'null'),
+    '': ('value': null, 'type': 'null'),
+    'string': ('value': null, 'type': 'null'),
+    'this is a string': ('value': null, 'type': 'null'),
+    'true': ('value': null, 'type': 'null'),
+    'false': ('value': null, 'type': 'null'),
+    '0': ('value': null, 'type': 'null'),
+    '-0': ('value': null, 'type': 'null'),
+    '1': ('value': null, 'type': 'null'),
+    '42': ('value': null, 'type': 'null'),
+    '4.2': ('value': null, 'type': 'null'),
+    '-42': ('value': null, 'type': 'null'),
+    '-4.2': ('value': null, 'type': 'null'),
+    '42em': ('value': null, 'type': 'null'),
+    '4.2em': ('value': null, 'type': 'null'),
+    '-42em': ('value': null, 'type': 'null'),
+    '-4.2em': ('value': null, 'type': 'null'),
+    '#000': ('value': null, 'type': 'null'),
+    '#000000': ('value': null, 'type': 'null'),
+    'black': ('value': null, 'type': 'null'),
+    'rgb(0,0,0)': ('value': null, 'type': 'null'),
+    'rgba(0,0,0,.5)': ('value': null, 'type': 'null'),
+    'hsl(0,0,0)': ('value': null, 'type': 'null'),
+    'hsla(0,0,0, .5)': ('value': null, 'type': 'null'),
+    #000: ('value': null, 'type': 'null'),
+    #ffffff: ('value': null, 'type': 'null'),
+    red: ('value': null, 'type': 'null'),
+    rgb(10, 20, 30): ('value': null, 'type': 'null'),
+    rgba(30, 20, 10, 0.5): ('value': null, 'type': 'null'),
+    hsl(10, 20, 30): ('value': null, 'type': 'null'),
+    hsla(30, 20, 10, 0.5): ('value': null, 'type': 'null'),
+    true: ('value': null, 'type': 'null'),
+    false: ('value': null, 'type': 'null'),
+    (this, is, a, list): ('value': null, 'type': 'null'),
+    (this is a list): ('value': null, 'type': 'null'),
+    ('a': 1, 'b': 2): ('value': null, 'type': 'null'),
+    null: ('value': null, 'type': 'null'),
+  );
 
-    @include should(expect(type-of(to-null(-0))), to(equal('null')));
-    @include should(expect(type-of(to-null(0))), to(equal('null')));
-    @include should(expect(type-of(to-null(1))), to(equal('null')));
-    @include should(expect(type-of(to-null(42))), to(equal('null')));
-    @include should(expect(type-of(to-null(-42))), to(equal('null')));
-    @include should(expect(type-of(to-null(-4.2))), to(equal('null')));
-    @include should(expect(type-of(to-null(4.2))), to(equal('null')));
-    @include should(expect(type-of(to-null(42em))), to(equal('null')));
-    @include should(expect(type-of(to-null(-42em))), to(equal('null')));
-    @include should(expect(type-of(to-null(-4.2em))), to(equal('null')));
-    @include should(expect(type-of(to-null(4.2em))), to(equal('null')));
+  @each $test, $expect in $tests {
+    $actual-value: to-null($test);
+    $actual-type: type-of($actual-value);
 
-    @include should(expect(to-null(())), to(equal(null)));
-    @include should(expect(to-null(this is a list)), to(equal(null)));
-    
-    @include should(expect(to-null(null)), to(equal(null)));
-    
-    @include should(expect(to-null(true)), to(equal(null)));
-    @include should(expect(to-null(false)), to(equal(null)));
-    
-    @include should(expect(to-null(("a": 1, "b": 2))), to(equal(null)));
+    $expected-value: map-get($expect, 'value');
+    $expected-type: map-get($expect, 'type');
 
-    @include should(expect(to-null(#000)), to(equal(null)));
-    @include should(expect(to-null(#000000)), to(equal(null)));
-    @include should(expect(to-null(black)), to(equal(null)));
-    @include should(expect(to-null(rgb(0,0,0))), to(equal(null)));
-    @include should(expect(to-null(rgba(0,0,0,.5))), to(equal(null)));
-    @include should(expect(to-null(hsl(0,0,0))), to(equal(null)));
-    @include should(expect(to-null(hsla(0,0,0, .5))), to(equal(null)));
-    
-    @include should(expect(to-null("")), to(equal(null)));
-    @include should(expect(to-null("string")), to(equal(null)));
-    @include should(expect(to-null("this is a string")), to(equal(null)));
-    @include should(expect(to-null("true")), to(equal(null)));
-    @include should(expect(to-null("false")), to(equal(null)));
-    @include should(expect(to-null("0")), to(equal(null)));
-    @include should(expect(to-null("-0")), to(equal(null)));
-    @include should(expect(to-null("1")), to(equal(null)));
-    @include should(expect(to-null("42")), to(equal(null)));
-    @include should(expect(to-null("4.2")), to(equal(null)));
-    @include should(expect(to-null("-42")), to(equal(null)));
-    @include should(expect(to-null("-4.2")), to(equal(null)));
-    @include should(expect(to-null("42em")), to(equal(null)));
-    @include should(expect(to-null("4.2em")), to(equal(null)));
-    @include should(expect(to-null("-42em")), to(equal(null)));
-    @include should(expect(to-null("-4.2em")), to(equal(null)));
-    @include should(expect(to-null('#000')), to(equal(null)));
-    @include should(expect(to-null('#000000')), to(equal(null)));
-    @include should(expect(to-null('black')), to(equal(null)));
-    @include should(expect(to-null('rgb(0,0,0)')), to(equal(null)));
-    @include should(expect(to-null('rgba(0,0,0,.5)')), to(equal(null)));
-    @include should(expect(to-null('hsl(0,0,0)')), to(equal(null)));
-    @include should(expect(to-null('hsla(0,0,0, .5)')), to(equal(null)));
-  }
-
-  @include it("should return a null type in all cases") {
-    @include should(expect(type-of(to-null(0))), to(equal('null')));
-    @include should(expect(type-of(to-null(1))), to(equal('null')));
-
-    @include should(expect(type-of(to-null(()))), to(equal('null')));
-    @include should(expect(type-of(to-null(this is a list))), to(equal('null')));
-
-    @include should(expect(type-of(to-null(("a": 1, "b": 2)))), to(equal('null')));
-
-    @include should(expect(type-of(to-null(null))), to(equal('null')));
-
-    @include should(expect(type-of(to-null(true))), to(equal('null')));
-    @include should(expect(type-of(to-null(false))), to(equal('null')));
-
-    @include should(expect(type-of(to-null(#000))), to(equal('null')));
-    @include should(expect(type-of(to-null(#000000))), to(equal('null')));
-    @include should(expect(type-of(to-null(black))), to(equal('null')));
-    @include should(expect(type-of(to-null(rgb(0,0,0)))), to(equal('null')));
-    @include should(expect(type-of(to-null(rgba(0,0,0,.5)))), to(equal('null')));
-    @include should(expect(type-of(to-null(hsl(0,0,0)))), to(equal('null')));
-    @include should(expect(type-of(to-null(hsla(0,0,0, .5)))), to(equal('null')));
-    
-    @include should(expect(type-of(to-null(""))), to(equal('null')));
-    @include should(expect(type-of(to-null("string"))), to(equal('null')));
-    @include should(expect(type-of(to-null("this is a string"))), to(equal('null')));
-    @include should(expect(type-of(to-null("true"))), to(equal('null')));
-    @include should(expect(type-of(to-null("false"))), to(equal('null')));
-    @include should(expect(type-of(to-null("42"))), to(equal('null')));
-    @include should(expect(type-of(to-null("0"))), to(equal('null')));
-    @include should(expect(type-of(to-null("-0"))), to(equal('null')));
-    @include should(expect(type-of(to-null("1"))), to(equal('null')));
-    @include should(expect(type-of(to-null("4.2"))), to(equal('null')));
-    @include should(expect(type-of(to-null("-42"))), to(equal('null')));
-    @include should(expect(type-of(to-null("-4.2"))), to(equal('null')));
-    @include should(expect(type-of(to-null("42em"))), to(equal('null')));
-    @include should(expect(type-of(to-null("4.2em"))), to(equal('null')));
-    @include should(expect(type-of(to-null("-42em"))), to(equal('null')));
-    @include should(expect(type-of(to-null("-4.2em"))), to(equal('null')));
-    @include should(expect(type-of(to-null('#000'))), to(equal('null')));
-    @include should(expect(type-of(to-null('#000000'))), to(equal('null')));
-    @include should(expect(type-of(to-null('black'))), to(equal('null')));
-    @include should(expect(type-of(to-null('rgb(0,0,0)'))), to(equal('null')));
-    @include should(expect(type-of(to-null('rgba(0,0,0,.5)'))), to(equal('null')));
-    @include should(expect(type-of(to-null('hsl(0,0,0)'))), to(equal('null')));
-    @include should(expect(type-of(to-null('hsla(0,0,0, .5)'))), to(equal('null')));
+    @include assert-equal($actual-value, $expected-value, 'Cast to null.');
+    @include assert-equal($actual-type, $expected-type, 'Cast to null.');
   }
 }
