@@ -32,6 +32,8 @@
     'rgba(0,0,0,.5)': ('value': rgba(black, 0.5), 'type': 'color'),
     'hsl(0,0,0)': ('value': black, 'type': 'color'),
     'hsla(0,0,0, .5)': ('value': rgba(black, 0.5), 'type': 'color'),
+    transparent: ('value': transparent, 'type': 'color'),
+    inherit: ('value': 'inherit', 'type': 'string'),
     #000: ('value': black, 'type': 'color'),
     #ffffff: ('value': white, 'type': 'color'),
     red: ('value': red, 'type': 'color'),
