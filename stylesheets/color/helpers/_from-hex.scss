@@ -4,31 +4,44 @@
 /// @return {Color | String} - string or hex color depending on the match
 /// @require {function} _sc-hex-to-dec
 @function _sc-from-hex($string) {
-  $string-lower: to-lower-case($string);
-  $r: '';  $g: ''; $b: '';
-  $hex: '0' '1' '2' '3' '4' '5' '6' '7' '8' '9' 'a' 'b' 'c' 'd' 'e' 'f';
+  $string: to-lower-case($string);
+  $r: ''; 
+  $g: '';
+  $b: '';
+  $hex: map-get($sc-constants, 'HEXADECIMAL_SPACE');
   $length: str-length($string);
   $max: if($length == 4, 1, 2);
 
-  // Check for length accuracy
+  // If the length of the value is neither 4, nor 7, it cannot be a valid
+  // hexadecimal triplet, therefore we warn and return the default color value
+  // (or throw in strict mode).
   @if ($length != 4 and $length != 7) {
     @return _sc-throw($string, 'color');
   }
 
-  // Loop from the second character (omitting #)
+  // Loop through the characters from the value, starting from the second one
+  // to omit the initial hash.
   @for $i from 2 through $length {
-    $c: str-slice($string-lower, $i, $i);
+    $c: str-slice($string, $i, $i);
 
-    // If wrong character, return
+    // If the character is not part of the hexadecimal space, the color cannot
+    // be a valid hexadecimal triplet, therefore we warn and return the default
+    // color value (or throw in strict mode).
     @if not index($hex, $c) {
       @return _sc-throw($string, 'color');
     }
 
-    @if      str-length($r) < $max { $r: $r + $c }
-    @else if str-length($g) < $max { $g: $g + $c }
-    @else if str-length($b) < $max { $b: $b + $c }
+    @if (str-length($r) < $max) {
+      $r: ($r + $c);
+    } @else if (str-length($g) < $max) {
+      $g: ($g + $c);
+    } @else if (str-length($b) < $max) {
+      $b: ($b + $c);
+    }
   }
 
+  // If the triplet is a short one, duplicated each found valud to compose a
+  // long version, necessary for the _sc-hex-to-dec(..) calls.
   @if $length == 4 {
     $r: $r + $r;
     $g: $g + $g;

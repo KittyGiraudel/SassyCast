@@ -1,54 +1,46 @@
-/// Cast a string into a rgb color
+/// Cast a string representation of a rgb(..) call into a color
 /// @access private
 /// @param {String} $string - string
-/// @return {Color | String} - string or rgb color depending on the match
-/// @require {function} _sc-get-color-value
-@function _sc-from-rgb($string) {
-  $string-lower: to-lower-case($string);
-  $frags: ();
-  $is-alpha: str-slice($string-lower, 4, 4) == 'a';
-  $start: str-index($string, '(');
-  $length: str-length($string);
+/// @return {Color} - Color
+@function _sc-from-rgb($value) {
+  $value: to-lower-case($value);
+  $channels: ('r': '', 'g': '', 'b': '', 'a': '');
+  $channel-keys: map-keys($channels);
+  $current-channel: nth($channel-keys, 1);
+  $discarded-characters: join($channel-keys, (' ', '(', ')'));
 
-  @for $i from $start through $length {
-    $token: str-slice($string-lower, $i, $i);
+  @for $i from 1 through str-length($value) {
+    $character: str-slice($value, $i, $i);
 
-    @if ($token == ' ') {
-      // @continue;
-    } @else if ($token == '(' or $token == ',') {
-      $frags: append($frags, '');
-    } @else if ($token == ')') {
-      @if length($frags) != if($is-alpha, 4, 3) {
-        @return _sc-throw($string, 'color'); // Parsing error
+    // If the character is neither the part of the function name, nor a space or
+    // a parenthese, we proceed further.
+    @if not index($discarded-characters, $character) {
+      // If the current character is a comma, it means we change the current
+      // channel to the next one.
+      @if ($character == ',') {
+        $current-channel-index: index($channel-keys, $current-channel);
+        $current-channel: nth($channel-keys, $current-channel-index + 1);
       }
-
-      $red: _sc-get-color-value(nth($frags, 1));
-      $green: _sc-get-color-value(nth($frags, 2));
-      $blue: _sc-get-color-value(nth($frags, 3));
-
-      @if (not $red or not $green or not $blue) {
-        @return _sc-throw($string, 'color');
+  
+      // If the current character is not a comma, it means it is part of the
+      // value for the current channel and therefore should be saved.
+      @else {
+        $current-channel-value: map-get($channels, $current-channel);
+        $channels: map-merge($channels, ($current-channel: $current-channel-value + $character));
       }
-
-      @if $is-alpha {
-        @if length($frags) != 4 {
-          @return _sc-throw($string, 'color'); // No alpha channel found
-        }
-
-        $alpha: _sc-get-color-value(nth($frags, 4));
-
-        @if not $alpha {
-          @return _sc-throw($string, 'color'); // Error parsing alpha channel
-        }
-
-        @return rgba($red, $green, $blue, $alpha);
-      }
-
-      @return rgb($red, $green, $blue);
-    } @else {
-      $frags: set-nth($frags, length($frags), nth($frags, length($frags)) + $token);
     }
   }
+  
+  $red: to-number(map-get($channels, 'r'));
+  $green: to-number(map-get($channels, 'g'));
+  $blue: to-number(map-get($channels, 'b'));
+  $alpha: map-get($channels, 'a');
+  
+  // If there is no alpha channel registered, return a classic hsl(..) call.  
+  @if ($alpha == '') {
+    @return rgb($red, $green, $blue);
+  }
 
-  @return $string;
+  // If there is a registered alpha channel, return a rgba(..) call.    
+  @return rgba($red, $green, $blue, to-number($alpha));
 }

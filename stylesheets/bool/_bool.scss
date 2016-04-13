@@ -2,7 +2,7 @@
 /// @param {*} $value - value to cast
 /// @return {Bool}
 @function to-bool($value) {
-  @if (not $value or $value == '' or $value == 0) {
+  @if index(map-get($sc-constants, 'NEGATIVE_VALUES'), $value) {
     @return false;
   }
 
