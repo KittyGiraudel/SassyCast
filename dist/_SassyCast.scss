@@ -104,6 +104,30 @@ $sc-non-strict-defaults: (
   @return $return-value;
 }
 
+/// Convert to list
+/// @param {*} $value - value to cast
+/// @return {List}
+@function to-list($value) {
+  $type: type-of($value);
+
+  @if ($type == 'list') {
+    @return $value;
+  }
+
+  @if ($type == 'map') {
+    @return zip(map-keys($value), map-values($value));
+  }
+
+  @return ($value,);
+}
+
+/// Convert to null
+/// @param {*} $value - value to cast
+/// @return {Null}
+@function to-null($value) {
+  @return null;
+}
+
 /// Convert to map
 /// @param {*} $value - value to cast
 /// @return {Map}
@@ -131,40 +155,6 @@ $sc-non-strict-defaults: (
   }
 
   @return (1: $value);
-}
-
-/// Convert to list
-/// @param {*} $value - value to cast
-/// @param {String} $keep ('both') - whether to keep `keys`, `values` or `both` when casting a map
-/// @return {List}
-@function to-list($value, $keep: 'both') {
-  $type: type-of($value);
-
-  @if ($type == 'list') {
-    @return $value;
-  }
-
-  @if ($type == 'map') {
-    $keys: map-keys($value);
-    $values: map-values($value);
-
-    @if ($keep == 'values') {
-      @return $values;
-    } @else if ($keep == 'keys') {
-      @return $keys;
-    } @else {
-      @return zip($keys, $values);
-    }
-  }
-
-  @return ($value,);
-}
-
-/// Convert to null
-/// @param {*} $value - value to cast
-/// @return {Null}
-@function to-null($value) {
-  @return null;
 }
 
 /// Cast a value to a number if possible or return 0
