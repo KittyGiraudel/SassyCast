@@ -12,7 +12,7 @@
 
   // Check for length accuracy
   @if ($length != 4 and $length != 7) {
-    @return $string;
+    @return _sc-throw($string, 'color');
   }
 
   // Loop from the second character (omitting #)
@@ -21,7 +21,7 @@
 
     // If wrong character, return
     @if not index($hex, $c) {
-      @return $string;
+      @return _sc-throw($string, 'color');
     }
 
     @if      str-length($r) < $max { $r: $r + $c }

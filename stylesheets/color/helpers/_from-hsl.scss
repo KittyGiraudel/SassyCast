@@ -18,7 +18,7 @@
       $frags: append($frags, "");
     } @else if ($token == ')') {
       @if (length($frags) != if($is-alpha, 4, 3)) {
-        @return $string; // Parsing error
+        @return _sc-throw($string, 'color'); // Parsing error
       }
 
       $hue: _sc-get-color-value(nth($frags, 1));
@@ -26,18 +26,18 @@
       $lightness: _sc-get-color-value(nth($frags, 3));
 
       @if (not $hue or not $saturation or not $lightness) {
-        @return $string;
+        @return _sc-throw($string, 'color');
       }
 
       @if $is-alpha {
         @if (length($frags) != 4) {
-          @return $string; // No alpha channel found
+          @return _sc-throw($string, 'color'); // No alpha channel found
         }
 
         $alpha: _sc-get-color-value(nth($frags, 4));
 
         @if not $alpha {
-          @return $string; // Error parsing alpha channel
+          @return _sc-throw($string, 'color'); // Error parsing alpha channel
         }
 
         @return hsla($hue, $saturation, $lightness, $alpha);

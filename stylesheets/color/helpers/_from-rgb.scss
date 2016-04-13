@@ -19,7 +19,7 @@
       $frags: append($frags, '');
     } @else if ($token == ')') {
       @if length($frags) != if($is-alpha, 4, 3) {
-        @return $string; // Parsing error
+        @return _sc-throw($string, 'color'); // Parsing error
       }
 
       $red: _sc-get-color-value(nth($frags, 1));
@@ -27,18 +27,18 @@
       $blue: _sc-get-color-value(nth($frags, 3));
 
       @if (not $red or not $green or not $blue) {
-        @return $string;
+        @return _sc-throw($string, 'color');
       }
 
       @if $is-alpha {
         @if length($frags) != 4 {
-          @return $string; // No alpha channel found
+          @return _sc-throw($string, 'color'); // No alpha channel found
         }
 
         $alpha: _sc-get-color-value(nth($frags, 4));
 
         @if not $alpha {
-          @return $string; // Error parsing alpha channel
+          @return _sc-throw($string, 'color'); // Error parsing alpha channel
         }
 
         @return rgba($red, $green, $blue, $alpha);

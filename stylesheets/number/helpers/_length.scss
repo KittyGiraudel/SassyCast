@@ -9,8 +9,7 @@
   $index: index($strings, $unit);
 
   @if not $index {
-    @warn 'Unknown unit `#{inspect($unit)}`.';
-    @return 0;
+    @return _sc-throw($number, 'number');
   }
 
   @return ($number * nth($units, $index));

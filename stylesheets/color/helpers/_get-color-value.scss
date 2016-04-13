@@ -14,8 +14,8 @@
   $last: str-slice($string, -1, -1);
 
   @if ($last == '%') {
-    @return _sc-to-number(str-slice($string, 1, -2), 2) * 1%;
+    @return to-number(str-slice($string, 1, -2), 2) * 1%;
   }
 
-  @return _sc-to-number($string);
+  @return to-number($string);
 }

@@ -1,0 +1,26 @@
+/// Toggle strict mode, in which script will throw when not able to cast a value
+/// into a certain type (mostly color and number). In non-strict mode, it will
+/// return the default value from the given type.
+/// @access public
+/// @type Bool
+$sc-strict-mode: false !default;
+
+/// Default return value for the `to-number(..)` function when running in
+/// non-strict mode.
+/// @access public
+/// @type Number
+$sc-non-strict-default-number: 0 !default;
+
+/// Default return value for the `to-color(..)` function when running in
+/// non-strict mode.
+/// @access public
+/// @type Number
+$sc-non-strict-default-color: transparent !default;
+
+/// Internal map for dynamically accessing default values for non-strict mode.
+/// @access private
+/// @type Map
+$sc-non-strict-defaults: (
+  'number': $sc-non-strict-default-number,
+  'color': $sc-non-strict-default-color,
+);

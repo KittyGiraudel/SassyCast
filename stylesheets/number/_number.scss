@@ -1,7 +1,7 @@
 /// Cast a value to a number if possible or return 0
 /// @param {String} $value - complete source
 /// @return {Number}
-@function _sc-to-number($value) {
+@function to-number($value) {
   $type: type-of($value);
 
   // In case everything's good
@@ -14,9 +14,13 @@
     @return 1;
   }
 
+  @if ($value == false) {
+    @return 0;
+  }
+
   // Fail
   @if ($type != 'string') {
-    @return 0;
+    @return _sc-throw($value, 'number');
   }
 
   // Trying to cast
@@ -28,8 +32,7 @@
 
   // Early check for errors
   @if not index($allowed, $first) {
-    @warn 'Could not cast `#{inspect($value)}` into number.';
-    @return 0;
+    @return _sc-throw($value, 'number');
   }
 
   // Find the integer part

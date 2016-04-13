@@ -1,7 +1,7 @@
 /// Convert to string
 /// @param {*} $value - value to cast
 /// @return {String}
-@function _sc-to-string($value) {
+@function to-string($value) {
   $type: type-of($value);
 
   @if ($type == 'string') {

@@ -1,7 +1,7 @@
 /// Convert to color
 /// @param {*} $value - value to cast
 /// @return {color | null}
-@function _sc-to-color($value) {
+@function to-color($value) {
   $type: type-of($value);
 
   @if ($type == 'color') {
@@ -9,8 +9,7 @@
   }
 
   @if ($type != 'string') {
-    //@warn 'Could not cast `#{inspect($value)}` to color.';
-    @return null;
+    @return _sc-throw($value, 'color');
   }
 
   $value-lower: to-lower-case($value);
@@ -48,8 +47,5 @@
   }
 
   // Return value
-  @else {
-    //@warn 'Could not cast `#{inspect($value)}` to color.';
-    @return null;
-  }
+  @return _sc-throw($value, 'color');
 }

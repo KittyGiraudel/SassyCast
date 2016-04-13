@@ -1,7 +1,45 @@
+/// Toggle strict mode, in which script will throw when not able to cast a value
+/// into a certain type (mostly color and number). In non-strict mode, it will
+/// return the default value from the given type.
+/// @access public
+/// @type Bool
+$sc-strict-mode: false !default;
+
+/// Default return value for the `to-number(..)` function when running in
+/// non-strict mode.
+/// @access public
+/// @type Number
+$sc-non-strict-default-number: 0 !default;
+
+/// Default return value for the `to-color(..)` function when running in
+/// non-strict mode.
+/// @access public
+/// @type Number
+$sc-non-strict-default-color: transparent !default;
+
+/// Internal map for dynamically accessing default values for non-strict mode.
+/// @access private
+/// @type Map
+$sc-non-strict-defaults: (
+  'number': $sc-non-strict-default-number,
+  'color': $sc-non-strict-default-color,
+);
+
+/// Convert to bool
+/// @param {*} $value - value to cast
+/// @return {Bool}
+@function to-bool($value) {
+  @if (not $value or $value == '' or $value == 0) {
+    @return false;
+  }
+
+  @return true;
+}
+
 /// Convert to color
 /// @param {*} $value - value to cast
 /// @return {color | null}
-@function _sc-to-color($value) {
+@function to-color($value) {
   $type: type-of($value);
 
   @if ($type == 'color') {
@@ -9,8 +47,7 @@
   }
 
   @if ($type != 'string') {
-    //@warn 'Could not cast `#{inspect($value)}` to color.';
-    @return null;
+    @return _sc-throw($value, 'color');
   }
 
   $value-lower: to-lower-case($value);
@@ -48,27 +85,29 @@
   }
 
   // Return value
-  @else {
-    //@warn 'Could not cast `#{inspect($value)}` to color.';
-    @return null;
-  }
+  @return _sc-throw($value, 'color');
 }
 
-/// Convert to bool
-/// @param {*} $value - value to cast
-/// @return {Bool}
-@function _sc-to-bool($value) {
-  @if (not $value or $value == '' or $value == 0) {
-    @return false;
+/// Helper function to throw when running in strict mode, or warn and return
+/// default value for expected type when running in non-strict mode.
+/// @param {*} $value
+/// @param {String} $expected-type
+@function _sc-throw($value, $expected-type) {
+  $return-value: map-get($sc-non-strict-defaults, $expected-type);
+
+  @if $sc-strict-mode {
+    @error 'Could not cast `#{inspect($value)}` to #{$expected-type}.';
+  } @else {
+    @warn 'Could not cast `#{inspect($value)}` to #{$expected-type}; returning `#{$return-value}`.';
   }
 
-  @return true;
+  @return $return-value;
 }
 
 /// Convert to map
 /// @param {*} $value - value to cast
 /// @return {Map}
-@function _sc-to-map($value) {
+@function to-map($value) {
   $type: type-of($value);
 
   @if ($type == 'map') {
@@ -98,7 +137,7 @@
 /// @param {*} $value - value to cast
 /// @param {String} $keep ('both') - whether to keep `keys`, `values` or `both` when casting a map
 /// @return {List}
-@function _sc-to-list($value, $keep: 'both') {
+@function to-list($value, $keep: 'both') {
   $type: type-of($value);
 
   @if ($type == 'list') {
@@ -124,14 +163,14 @@
 /// Convert to null
 /// @param {*} $value - value to cast
 /// @return {Null}
-@function _sc-to-null($value) {
+@function to-null($value) {
   @return null;
 }
 
 /// Cast a value to a number if possible or return 0
 /// @param {String} $value - complete source
 /// @return {Number}
-@function _sc-to-number($value) {
+@function to-number($value) {
   $type: type-of($value);
 
   // In case everything's good
@@ -144,9 +183,13 @@
     @return 1;
   }
 
+  @if ($value == false) {
+    @return 0;
+  }
+
   // Fail
   @if ($type != 'string') {
-    @return 0;
+    @return _sc-throw($value, 'number');
   }
 
   // Trying to cast
@@ -158,8 +201,7 @@
 
   // Early check for errors
   @if not index($allowed, $first) {
-    @warn 'Could not cast `#{inspect($value)}` into number.';
-    @return 0;
+    @return _sc-throw($value, 'number');
   }
 
   // Find the integer part
@@ -191,7 +233,7 @@
 /// Convert to string
 /// @param {*} $value - value to cast
 /// @return {String}
-@function _sc-to-string($value) {
+@function to-string($value) {
   $type: type-of($value);
 
   @if ($type == 'string') {
@@ -220,7 +262,7 @@
 
   // Check for length accuracy
   @if ($length != 4 and $length != 7) {
-    @return $string;
+    @return _sc-throw($string, 'color');
   }
 
   // Loop from the second character (omitting #)
@@ -229,7 +271,7 @@
 
     // If wrong character, return
     @if not index($hex, $c) {
-      @return $string;
+      @return _sc-throw($string, 'color');
     }
 
     @if      str-length($r) < $max { $r: $r + $c }
@@ -266,7 +308,7 @@
       $frags: append($frags, "");
     } @else if ($token == ')') {
       @if (length($frags) != if($is-alpha, 4, 3)) {
-        @return $string; // Parsing error
+        @return _sc-throw($string, 'color'); // Parsing error
       }
 
       $hue: _sc-get-color-value(nth($frags, 1));
@@ -274,18 +316,18 @@
       $lightness: _sc-get-color-value(nth($frags, 3));
 
       @if (not $hue or not $saturation or not $lightness) {
-        @return $string;
+        @return _sc-throw($string, 'color');
       }
 
       @if $is-alpha {
         @if (length($frags) != 4) {
-          @return $string; // No alpha channel found
+          @return _sc-throw($string, 'color'); // No alpha channel found
         }
 
         $alpha: _sc-get-color-value(nth($frags, 4));
 
         @if not $alpha {
-          @return $string; // Error parsing alpha channel
+          @return _sc-throw($string, 'color'); // Error parsing alpha channel
         }
 
         @return hsla($hue, $saturation, $lightness, $alpha);
@@ -321,7 +363,7 @@
       $frags: append($frags, '');
     } @else if ($token == ')') {
       @if length($frags) != if($is-alpha, 4, 3) {
-        @return $string; // Parsing error
+        @return _sc-throw($string, 'color'); // Parsing error
       }
 
       $red: _sc-get-color-value(nth($frags, 1));
@@ -329,18 +371,18 @@
       $blue: _sc-get-color-value(nth($frags, 3));
 
       @if (not $red or not $green or not $blue) {
-        @return $string;
+        @return _sc-throw($string, 'color');
       }
 
       @if $is-alpha {
         @if length($frags) != 4 {
-          @return $string; // No alpha channel found
+          @return _sc-throw($string, 'color'); // No alpha channel found
         }
 
         $alpha: _sc-get-color-value(nth($frags, 4));
 
         @if not $alpha {
-          @return $string; // Error parsing alpha channel
+          @return _sc-throw($string, 'color'); // Error parsing alpha channel
         }
 
         @return rgba($red, $green, $blue, $alpha);
@@ -371,10 +413,10 @@
   $last: str-slice($string, -1, -1);
 
   @if ($last == '%') {
-    @return _sc-to-number(str-slice($string, 1, -2), 2) * 1%;
+    @return to-number(str-slice($string, 1, -2), 2) * 1%;
   }
 
-  @return _sc-to-number($string);
+  @return to-number($string);
 }
 
 /// Convert an hexadecimal number to a decimal number
@@ -471,8 +513,7 @@
   $index: index($strings, $unit);
 
   @if not $index {
-    @warn 'Unknown unit `#{inspect($unit)}`.';
-    @return 0;
+    @return _sc-throw($number, 'number');
   }
 
   @return ($number * nth($units, $index));
@@ -497,32 +538,4 @@
   }
 
   @return $ret;
-}
-
-@function to-bool($value) {
-  @return _sc-to-bool($value);
-}
-
-@function to-color($value) {
-  @return _sc-to-color($value);
-}
-
-@function to-list($value, $keep: 'both') {
-  @return _sc-to-list($value, $keep);
-}
-
-@function to-map($value) {
-  @return _sc-to-map($value);
-}
-
-@function to-null($value) {
-  @return _sc-to-null($value);
-}
-
-@function to-number($value) {
-  @return _sc-to-number($value);
-}
-
-@function to-string($value) {
-  @return _sc-to-string($value);
 }

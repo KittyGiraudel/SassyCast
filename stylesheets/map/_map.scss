@@ -1,7 +1,7 @@
 /// Convert to map
 /// @param {*} $value - value to cast
 /// @return {Map}
-@function _sc-to-map($value) {
+@function to-map($value) {
   $type: type-of($value);
 
   @if ($type == 'map') {
