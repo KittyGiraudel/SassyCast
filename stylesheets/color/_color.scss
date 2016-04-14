@@ -16,18 +16,16 @@
   }
 
   $value-lower: to-lower-case($value);
-  $color-keywords: map-get($sc-constants, 'COLOR_KEYWORDS');
-  $keywords: ();
-
-  // Filling $keywords with stringified color keywords
-  @each $color in $color-keywords {
-    $keywords: append($keywords, $color + '');
-  }
 
   // If the given value is a stringified color keyword, return the accurate
   // color keyword.
-  @if index($keywords, $value-lower) {
-    @return nth($color-keywords, index($keywords, $value-lower));
+  $color-keyword-index: index(
+    map-get($sc-constants, 'STRINGIFIED_COLOR_KEYWORDS'),
+    $value-lower
+  );
+
+  @if $color-keyword-index {
+    @return nth(map-get($sc-constants, 'COLOR_KEYWORDS'), $color-keyword-index);
   }
 
   // If the color starts with a hash, assume it’s a hexadecimal color triplet
