@@ -5,7 +5,7 @@
   "description": "A Sass API data type conversion.",
   "scripts": {
     "test": "mocha test/index.js",
-    "build": "gulp build"
+    "build": "find stylesheets/ -name '*.scss' -exec cat {} + > ./dist/_SassyCast.scss"
   },
   "repository": {
     "type": "git",
@@ -25,8 +25,6 @@
   },
   "homepage": "https://github.com/HugoGiraudel/SassyCast",
   "devDependencies": {
-    "gulp": "^3.9.1",
-    "gulp-concat": "^2.6.0",
     "mocha": "^2.4.5",
     "sass-true": "^2.0.3"
   }
