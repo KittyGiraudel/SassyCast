@@ -2,7 +2,7 @@
 /// @access private
 /// @param {String} $string - string
 /// @return {Color | String} - string or rgb color depending on the match
-/// @require {function} _get-color-value
+/// @require {function} _sc-get-color-value
 @function _sc-from-rgb($string) {
   $string-lower: to-lower-case($string);
   $frags: ();

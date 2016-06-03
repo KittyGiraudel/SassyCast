@@ -2,7 +2,7 @@
 /// @access private
 /// @param {string} $string - string
 /// @return {Number} - unitless number or percentage
-/// @require {function} to-number
+/// @require {function} _sc-to-number
 @function _sc-get-color-value($string) {
   $first: str-slice($string, 1, 1);
 

@@ -2,7 +2,7 @@
 /// @access private
 /// @param {string} $string - string
 /// @return {Color | String} - string or hsl color depending on the match
-/// @require {function} _get-color-value
+/// @require {function} _sc-get-color-value
 @function _sc-from-hsl($string) {
   $frags: ();
   $string-lower: to-lower-case($string);
