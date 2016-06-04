@@ -1,0 +1,10 @@
+/// Convert to bool
+/// @param {*} $value - value to cast
+/// @return {Bool}
+@function to-bool($value) {
+  @if index(map-get($sc-constants, 'FALSEY_VALUES'), $value) {
+    @return false;
+  }
+
+  @return true;
+}

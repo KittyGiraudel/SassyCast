@@ -1,0 +1,6 @@
+/// Convert to null
+/// @param {*} $value - value to cast
+/// @return {Null}
+@function to-null($value) {
+  @return null;
+}

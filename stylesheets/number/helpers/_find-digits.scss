@@ -1,0 +1,30 @@
+/// Finding the digits part of a stringified number
+/// @access private
+/// @param {string} $source - string source
+/// @param {Number} $pointer - current pointer
+/// @return {List} - new pointer, parsed number
+@function _sc-find-digits($source, $pointer) {
+  $source: to-lower-case($source);
+  $length: str-length($source);
+  $numbers: map-get($sc-constants, 'DECIMAL_SPACE');
+  $result: 0;
+  $runs: 1;
+
+  @while ($pointer <= $length) {
+    $token: str-slice($source, $pointer, $pointer);
+    $index: index($numbers, $token);
+
+    @if ($token == '.') {
+      // @continue;
+    } @else if ($index and $index > 0) {
+      $runs: ($runs * 10);
+      $result: ($result * 10) + ($index - 1);
+    } @else {
+      @return $pointer, ($result / $runs);
+    }
+
+    $pointer: ($pointer + 1);
+  }
+
+  @return $pointer, ($result / $runs);
+}

@@ -1,0 +1,31 @@
+/// Convert to map
+/// @param {*} $value - value to cast
+/// @return {Map}
+@function to-map($value) {
+  $type: type-of($value);
+
+  // If the value is already a map, we can safely return it.
+  @if ($type == 'map') {
+    @return $value;
+  }
+
+  // If the type is a list, we return an empty list if it has a no item or we
+  // map each item to its index in the list.
+  @if ($type == 'list') {
+    $length: length($value);
+
+    @if ($length == 0) {
+      @return ();
+    }
+
+    $map: ();
+
+    @for $i from 1 through $length {
+      $map: map-merge($map, ($i: nth($value, $i)));
+    }
+
+    @return $map;
+  }
+
+  @return (1: $value);
+}

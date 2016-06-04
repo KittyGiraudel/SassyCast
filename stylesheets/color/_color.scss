@@ -1,0 +1,52 @@
+/// Convert to color
+/// @param {*} $value - value to cast
+/// @return {color | null}
+@function to-color($value) {
+  $type: type-of($value);
+
+  // If the value is already a color, we can safely return it.
+  @if ($type == 'color') {
+    @return $value;
+  }
+
+  // If the type is not a string, there is no way we can convert it to a color,
+  // so we warn and return the default color value (or throw in strict mode).
+  @if ($type != 'string') {
+    @return _sc-throw($value, 'color');
+  }
+
+  $value-lower: to-lower-case($value);
+
+  // If the given value is a stringified color keyword, return the accurate
+  // color keyword.
+  $color-keyword-index: index(
+    map-get($sc-constants, 'STRINGIFIED_COLOR_KEYWORDS'),
+    $value-lower
+  );
+
+  @if $color-keyword-index {
+    @return nth(map-get($sc-constants, 'COLOR_KEYWORDS'), $color-keyword-index);
+  }
+
+  // If the color starts with a hash, assume it’s a hexadecimal color triplet
+  // and try to convert it to an actual color.
+  @else if (str-slice($value-lower, 1, 1) == '#') {
+    @return _sc-from-hex($value);
+  }
+
+  // If the color starts with `rgb`, assume it’s a rgb(..) function call and try
+  // to convert it to an actual color.
+  @else if (str-slice($value-lower, 1, 3) == 'rgb') {
+    @return _sc-from-rgb($value);
+  }
+
+  // If the color starts with `hsl`, assume it’s a hsl(..) function call and try
+  // to convert it to an actual color.
+  @else if (str-slice($value-lower, 1, 3) == 'hsl') {
+    @return _sc-from-hsl($value);
+  }
+
+  // If everything has failed, arn and return the default color value (or throw
+  // in strict mode).
+  @return _sc-throw($value, 'color');
+}

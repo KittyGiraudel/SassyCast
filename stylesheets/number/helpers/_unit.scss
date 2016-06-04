@@ -1,0 +1,15 @@
+/// Tries to find a unit that would match a CSS length
+/// @access private
+/// @param {Number} $number - number
+/// @param {String}   $unit - potential unit
+/// @return {Number} length (0 if cast failed)
+@function _sc-unit($number, $unit) {
+  $units: map-get($sc-constants, 'UNIT_VALUES');
+  $index: index(map-get($sc-constants, 'UNITS'), $unit);
+
+  @if not $index {
+    @return _sc-throw($number, 'number');
+  }
+
+  @return ($number * nth($units, $index));
+}

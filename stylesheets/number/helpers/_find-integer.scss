@@ -1,0 +1,28 @@
+/// Finding the integer part of a stringified number
+/// @access private
+/// @param {String} $source  - string source
+/// @param {Number} $pointer - current pointer
+/// @return {List} new pointer, parsed number
+@function _sc-find-integer($source, $pointer) {
+  $source: to-lower-case($source);
+  $length: str-length($source);
+  $numbers: map-get($sc-constants, 'DECIMAL_SPACE');
+  $result: 0;
+
+  @while ($pointer <= $length) {
+    $token: str-slice($source, $pointer, $pointer);
+    $index: index($numbers, $token);
+
+    @if ($token == '-') {
+      // @continue;
+    } @else if $index {
+      $result: ($result * 10) + ($index - 1);
+    } @else {
+      @return $pointer, $result;
+    }
+
+    $pointer: ($pointer + 1);
+  }
+
+  @return $pointer, $result;
+}

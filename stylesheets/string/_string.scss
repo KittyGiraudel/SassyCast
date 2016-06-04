@@ -1,0 +1,17 @@
+/// Convert to string
+/// @param {*} $value - value to cast
+/// @return {String}
+@function to-string($value) {
+  $type: type-of($value);
+
+  // If the value is already a string, we can safely return it.
+  @if ($type == 'string') {
+    @return $value;
+  }
+
+  @if type-of($value) == 'color' {
+    @warn 'Beware! Sass does some color conversion. The resulting string may be different from the color input.';
+  }
+
+  @return inspect($value);
+}

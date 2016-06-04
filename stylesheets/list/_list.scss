@@ -1,0 +1,19 @@
+/// Convert to list
+/// @param {*} $value - value to cast
+/// @return {List}
+@function to-list($value) {
+  $type: type-of($value);
+  
+  // If the value is already a list, we can safely return it.
+  @if ($type == 'list') {
+    @return $value;
+  }
+
+  // If the value is a map, we return a zip of keys and values (aka a list-map).
+  @if ($type == 'map') {
+    @return zip(map-keys($value), map-values($value));
+  }
+
+  // Else we wrap the item in a single-item list.
+  @return ($value,);
+}

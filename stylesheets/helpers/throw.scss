@@ -1,0 +1,15 @@
+/// Helper function to throw when running in strict mode, or warn and return
+/// default value for expected type when running in non-strict mode.
+/// @param {*} $value
+/// @param {String} $expected-type
+@function _sc-throw($value, $expected-type) {
+  $return-value: map-get($sc-non-strict-defaults, $expected-type);
+
+  @if $sc-strict-mode {
+    @error 'Could not cast `#{inspect($value)}` to #{$expected-type}.';
+  } @else {
+    @warn 'Could not cast `#{inspect($value)}` to #{$expected-type}; returning `#{$return-value}`.';
+  }
+
+  @return $return-value;
+}

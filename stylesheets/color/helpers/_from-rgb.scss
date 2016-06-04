@@ -1,0 +1,46 @@
+/// Cast a string representation of a rgb(..) call into a color
+/// @access private
+/// @param {String} $string - string
+/// @return {Color} - Color
+@function _sc-from-rgb($value) {
+  $value: to-lower-case($value);
+  $channels: ('r': '', 'g': '', 'b': '', 'a': '');
+  $channel-keys: map-keys($channels);
+  $current-channel: nth($channel-keys, 1);
+  $discarded-characters: join($channel-keys, (' ', '(', ')'));
+
+  @for $i from 1 through str-length($value) {
+    $character: str-slice($value, $i, $i);
+
+    // If the character is neither the part of the function name, nor a space or
+    // a parenthese, we proceed further.
+    @if not index($discarded-characters, $character) {
+      // If the current character is a comma, it means we change the current
+      // channel to the next one.
+      @if ($character == ',') {
+        $current-channel-index: index($channel-keys, $current-channel);
+        $current-channel: nth($channel-keys, $current-channel-index + 1);
+      }
+  
+      // If the current character is not a comma, it means it is part of the
+      // value for the current channel and therefore should be saved.
+      @else {
+        $current-channel-value: map-get($channels, $current-channel);
+        $channels: map-merge($channels, ($current-channel: $current-channel-value + $character));
+      }
+    }
+  }
+  
+  $red: to-number(map-get($channels, 'r'));
+  $green: to-number(map-get($channels, 'g'));
+  $blue: to-number(map-get($channels, 'b'));
+  $alpha: map-get($channels, 'a');
+  
+  // If there is no alpha channel registered, return a classic hsl(..) call.  
+  @if ($alpha == '') {
+    @return rgb($red, $green, $blue);
+  }
+
+  // If there is a registered alpha channel, return a rgba(..) call.    
+  @return rgba($red, $green, $blue, to-number($alpha));
+}

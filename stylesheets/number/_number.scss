@@ -1,0 +1,75 @@
+/// Cast a value to a number if possible or return 0
+/// @param {String} $value - complete source
+/// @return {Number}
+@function to-number($value) {
+  $type: type-of($value);
+
+  // If the value is already a number, we can safely return it.
+  @if ($type == 'number') {
+    @return $value;
+  }
+
+  // If the value is the `true` boolean, we return 1.
+  @if ($value == true)  {
+    @return 1;
+  }
+
+  // If the value is the `false` boolean, we return 0.
+  @if ($value == false) {
+    @return 0;
+  }
+
+  // If the type is not a string, there is no way we can convert it to a number,
+  // so we warn and return the default number value (or throw in strict mode).
+  @if ($type != 'string') {
+    @return _sc-throw($value, 'number');
+  }
+
+  // At this point we have discarded all the edge cases so we can start trying
+  // to cast the value into a number.
+  $pointer: 1;
+  $result: 0;
+  $first-character: str-slice($value, $pointer, $pointer);
+  $allowed-first-character: join(('-', '.'), map-get($sc-constants, 'DECIMAL_SPACE'));
+
+  // We perform an early check for errors. If value starts with neither a number
+  // nor a minus sign, it cannot be casted to a number. Therefore we warn and
+  // return the default number value (or throw in strict mode).
+  @if not index($allowed-first-character, $first-character) {
+    @return _sc-throw($value, 'number');
+  }
+
+  // In case the value starts with a dot, we assume it is a float and pad it
+  // with a zero.
+  @if ($first-character == '.') {
+    $value: '0' + $value;
+  }
+
+  // We find the integer part of the value.
+  $find-integer: _sc-find-integer($value, $pointer);
+  $pointer: nth($find-integer, 1);
+  $result:  nth($find-integer, 2);
+
+  // If there still is a dot, it means we have to check for the digits part of
+  // the value.
+  @if (str-slice($value, $pointer, $pointer) == '.') {
+    $find-digits: _sc-find-digits($value, $pointer);
+    $pointer: nth($find-digits, 1);
+    $digits:  nth($find-digits, 2);
+    $result: ($result + $digits);
+  }
+
+  // If the first character is a minus symbol, it means the number is negative
+  // so we can multiply it per -1.
+  @if ($first-character == '-') {
+    $result: ($result * -1);
+  }
+
+  // If we are still not done with the evaluation, it means there could be a CSS
+  // unit, so we check for it.
+  @if ($pointer <= str-length($value)) {
+    $result: _sc-unit($result, str-slice($value, $pointer));
+  }
+
+  @return $result;
+}
