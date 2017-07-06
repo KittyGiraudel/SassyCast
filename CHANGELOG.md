@@ -1,6 +1,10 @@
 # Changelog
 
-* `2.0.0`: 
+* `2.0.1`:
+  * Fix incorrect calculation of power 0
+  * Fix incorrect hexadecimal to base 10 conversion
+
+* `2.0.0`:
   * No more distinction between public and private APIs. The public API (`to-*` functions) remains unchanged, but the private one (`_sc-to-*` functions) has been removed.
   * A strict mode toggle has been added (`$sc-strict-mode`): SassyCast will throw when not able to convert to color / number, or return a default value with a warning in non-strict mode.
   * Default value for color casting in non-strict mode is now `transparent`, not `null`, to make conversion always return the expected type.
