@@ -6,7 +6,7 @@
 @function _sc-pow($x, $n) {
   $ret: 1;
 
-  @if $n >= 0 {
+  @if $n > 0 {
     @for $i from 1 through $n {
       $ret: ($ret * $x);
     }

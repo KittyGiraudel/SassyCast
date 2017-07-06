@@ -10,9 +10,9 @@
   $decimal: 0;
 
   @for $i from 1 through $length {
-    $factor: 1 + (length($hex) * ($length - $i));
-    $index: index($hex, str-slice($string, $i, $i));
-    $decimal: $decimal + $factor * ($index - 1);
+    $factor: _sc-pow(length($hex), ($length - $i));
+    $index: index($hex, str-slice($string, $i, $i)) - 1;
+    $decimal: $decimal + ($factor * $index);
   }
 
   @return $decimal;
