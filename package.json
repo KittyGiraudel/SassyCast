@@ -3,6 +3,7 @@
   "name": "SassyCast",
   "version": "2.0.1",
   "description": "A Sass API data type conversion.",
+  "style": "./dist/_SassyCast.scss",
   "scripts": {
     "test": "mocha test/index.js",
     "build": "find stylesheets/ -name '*.scss' -exec cat {} + > ./dist/_SassyCast.scss"
