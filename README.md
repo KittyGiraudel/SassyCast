@@ -1,5 +1,12 @@
 # SassyCast
 
+[![GitHub release](https://img.shields.io/github/release/bameyrick/SassyCast.svg)](https://github.com/bameyrick/SassyCast/releases)
+[![Travis tests](https://img.shields.io/travis/bameyrick/SassyCast.svg)](https://travis-ci.org/bameyrick/SassyCast)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/4a5be5166ef6447399606e170fdba9c0)](https://www.codacy.com/manual/bameyrick/SassyCast)
+[![GitHub issues](https://img.shields.io/github/issues/bameyrick/SassyCast)](https://github.com/bameyrick/SassyCast/issues)
+[![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/bameyrick/SassyCast.svg)](https://github.com/bameyrick/SassyCast/pulls)
+[![Github last commit](https://img.shields.io/github/last-commit/bameyrick/SassyCast.svg)](https://github.com/bameyrick/SassyCast/commits)
+
 SassyCast is a simple API for type conversion in Sass. Read [API documentation](https://sassy-cast.netlify.com/).
 
 ## Installation
