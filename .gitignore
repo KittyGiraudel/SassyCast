@@ -4,3 +4,4 @@ tmp
 *.tgz
 dist/
 *.log
+sassdoc/
