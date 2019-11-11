@@ -1,0 +1,17 @@
+# This file is for unifying the coding style for different editors and IDEs
+# editorconfig.org
+root = true
+[*]
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = false
+insert_final_newline = true
+indent_style = space
+[{*.yml,*.json}]
+indent_size = 2
+# Sass
+[{*.scss, *.sass}]
+indent_size = 2
+# Javascript + derivatives
+[{*.js,*.ts}]
+indent_size = 2

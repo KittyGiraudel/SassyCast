@@ -1,5 +1,0 @@
-{
-  "name": "SassyCast",
-  "description": "SassyCast is a lightweight Sass library providing a simple API to go from one data-type to another in Sass.",
-  "tags": ["cast", "sass", "type", "lists", "maps", "numbers", "strings", "bools"]
-}

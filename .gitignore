@@ -1,7 +1,5 @@
-*.gem
 node_modules
 tmp
-.sass-cache
-.sassdoc
-sassdocify
-.idea
+.DS_Store
+*.tgz
+dist/
