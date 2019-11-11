@@ -15,21 +15,27 @@
     "type": "git",
     "url": "https://github.com/bameyrick/SassyCast"
   },
-  "keywords": [
-    "sass",
-    "scss",
-    "cast",
-    "type",
-    "data type"
-  ],
+  "keywords": ["sass", "scss", "cast", "type", "data type"],
   "author": "Ben Meyrick <bameyrick@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/bameyrick/SassyCast/issues"
   },
   "homepage": "https://github.com/bameyrick/SassyCast",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && yarn test"
+    }
+  },
+  "lint-staged": {
+    "*.json": ["prettier --print-width 140 --single-quote --trailing-comma es5 --parser json --write", "git add"],
+    "*.js": ["prettier --print-width 140 --single-quote --trailing-comma es5 --parser babel --write", "git add"]
+  },
   "devDependencies": {
+    "husky": "^3.0.9",
+    "lint-staged": "^9.4.2",
     "mocha": "^2.4.5",
+    "prettier": "^1.19.1",
     "sass-true": "^2.0.3"
   }
 }
