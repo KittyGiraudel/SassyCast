@@ -1,15 +1,15 @@
 # SassyCast
 
-SassyCast is a simple API for type conversion in Sass. Read [API documentation](http://hugogiraudel.com/SassyCast).
+SassyCast is a simple API for type conversion in Sass. Read [API documentation](https://sassy-cast.netlify.com/).
 
 ## Installation
 
 ```
-gem install SassyCast
+npm install sassy-cast
 ```
 
 ```
-bower install sassy-cast
+yarn add sassy-cast
 ```
 
 ## Notes
@@ -32,8 +32,10 @@ In non-strict mode, when a value cannot be converted to a color, SassyCast will 
 $sc-non-strict-default-color: transparent;
 ```
 
-Note that color formats are sometimes converted automatically by Sass depending on the type of syntaxe used (compressed, expanded, etc.). When casting a color to string, the resulting string can be different from the color input.
+Note that color formats are sometimes converted automatically by Sass depending on the type of syntax used (compressed, expanded, etc.). When casting a color to string, the resulting string can be different from the color input.
 
 ## Credits
+
+Originally created by [Hugo Giraudel](https://github.com/HugoGiraudel)
 
 Huge thanks to [Marc Mintel](http://twitter.com/marcmintel) for his help.
