@@ -9,7 +9,7 @@
     "test": "yarn build && mocha test/index.js",
     "build": "yarn tidy-clean && mkdir dist && find stylesheets/ -name '*.scss' -exec cat {} + > ./dist/_SassyCast.scss",
     "check-package": "yarn build && tar tvf $(npm pack)",
-    "build-docs": "yarn sassdoc stylesheets/",
+    "build-docs": "npm --no-git-tag-version version $(git tag | tail -1) && yarn sassdoc stylesheets/",
     "tidy-clean": "rm -rf ./dist && find . -depth 1 -name '*.tgz' -delete && rm -rf ./sassdoc"
   },
   "repository": {
