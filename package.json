@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/HugoGiraudel/SassyCast"
+    "url": "https://github.com/KittyGiraudel/SassyCast"
   },
   "keywords": [
     "sass",
@@ -18,12 +18,12 @@
     "type",
     "data type"
   ],
-  "author": "Hugo Giraudel",
+  "author": "Kitty Giraudel",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/HugoGiraudel/SassyCast/issues"
+    "url": "https://github.com/KittyGiraudel/SassyCast/issues"
   },
-  "homepage": "https://github.com/HugoGiraudel/SassyCast",
+  "homepage": "https://github.com/KittyGiraudel/SassyCast",
   "devDependencies": {
     "mocha": "^2.4.5",
     "sass-true": "^2.0.3"
