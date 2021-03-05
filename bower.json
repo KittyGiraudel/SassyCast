@@ -1,13 +1,13 @@
 {
     "name": "SassyCast",
     "version": "2.0.1",
-    "homepage": "https://github.com/HugoGiraudel/SassyCast",
+    "homepage": "https://github.com/KittyGiraudel/SassyCast",
     "repository": {
         "type": "git",
-        "url": "https://github.com/HugoGiraudel/SassyCast.git"
+        "url": "https://github.com/KittyGiraudel/SassyCast.git"
     },
     "authors": [
-        "Hugo Giraudel"
+        "Kitty Giraudel"
     ],
     "description": "All you ever wanted to deal with strings in Sass.",
     "main": "dist/_SassyCast.scss",
