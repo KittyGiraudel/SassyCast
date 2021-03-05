@@ -1,4 +1,4 @@
-basePath: "https://github.com/HugoGiraudel/SassyCast/tree/master/stylesheets"
+basePath: "https://github.com/KittyGiraudel/SassyCast/tree/master/stylesheets"
 display:
     access: ["public"]
     alias: false
