@@ -10,9 +10,9 @@ Gem::Specification.new do |s|
   s.rubyforge_project = "SassyCast"
   s.description = %q{Sass API for type conversion.}
   s.summary = %q{SassyCast is a Sass-powered API for type conversion.}
-  s.authors = ["Hugo Giraudel"]
-  s.email = ["hugo.giraudel@gmail.com"]
-  s.homepage = "https://github.com/HugoGiraudel/SassyCast/"
+  s.authors = ["Kitty Giraudel"]
+  s.email = ["kitty.giraudel@gmail.com"]
+  s.homepage = "https://github.com/KittyGiraudel/SassyCast/"
 
   # README file
   s.files = ["README.md"]
