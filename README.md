@@ -1,6 +1,6 @@
 # SassyCast
 
-SassyCast is a simple API for type conversion in Sass. Read [API documentation](http://hugogiraudel.com/SassyCast).
+SassyCast is a simple API for type conversion in Sass.
 
 ## Installation
 
